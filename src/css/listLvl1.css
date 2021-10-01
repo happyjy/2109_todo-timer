@@ -66,7 +66,9 @@
   background: bisque;
   padding: 5px 10px;
 }
-
+.listLv1-item-left{
+  width: 100%;
+}
 .listLv1-item-left, .listLv1-item-right {
   display: flex;
   flex-direction: row;
