@@ -26,11 +26,12 @@ export class listLvl1 {
     this.data = data;
     this.dataField = dataField;
     // lvlField, idField, titleField, countField
+
+    this.$listLvl1HeaderContainer = document.querySelector(headerSelector);
+    this.$listLvl1ContentContainer = document.querySelector(contentSelector);
+
     const { listLvl1Header, listLvl1Content } = this.initialize(
-      [
-        document.querySelector(headerSelector),
-        document.querySelector(contentSelector),
-      ],
+      [this.$listLvl1HeaderContainer, this.$listLvl1ContentContainer],
       data,
     );
     this.eventBinding();
@@ -57,133 +58,155 @@ export class listLvl1 {
 
     // # lvl1 content
     //  * 삭제 기능
-    let template = '<div class="listLvl1-content">';
-    listData.forEach((data) => {
-      // lvlField, idField, titleField, countField
-      template += `
-        <div class="listLvl1-item" data-index=${data.id}>
-          <div class="listLv1-item-left">
-            <div class="icon-container">
-              <label class="listLv1-item-icon">🔥</label>
-            </div>
-            <div class="listLv1-item-title-outer">
-              <label class="listLv1-item-title item-title">${data.title}</label>
-            </div>
-          </div>
-          <div class="listLv1-item-right">
-            <div class="icon-container">
-              <label class="del-icon"></label>
-            </div>
-            <div class="listLv1-item-count-outer">
-              <label class="listLv1-item-count">${data.count}</label>
-            </div>
-          </div>
-        </div>
+    const $listLvl1Content = this.renderListLvl1(
+      $listLvl1ContentContainer,
+      listData,
+    );
 
-      `;
+    return { $listLvl1Header, $listLvl1Content };
+  }
+
+  renderListLvl1($listLvl1ContentContainer, listData) {
+    debugger;
+    if ($listLvl1ContentContainer.innerHTML) {
+      $listLvl1ContentContainer.innerHTML = '';
+    }
+
+    let template = '<div class="listLvl1-content">';
+    this.listLvl1ItemInst = [];
+    listData.forEach((v) => {
+      const inst = new listLvl1Item(v);
+      this.listLvl1ItemInst.push(inst);
+      template += inst.getHtml();
     });
-    // <!-- 추가 input template -->
-    template += `
-      <div id="add-listLvl1-item" class="hidden">
-        <div class="add-listLvl1-item listLvl1-item">
-          <div class="listLv1-item-left">
-            <div class="icon-container">
-              <label class="listLv1-item-icon">🔥</label>
-            </div>
-            <div class="listLv1-item-input-outer">
-              <input id="listLv1-item-input" type="text" />
-            </div>
-          </div>
-          <div class="listLv1-item-right">
-            <div class="listLv1-item-count-outer">
-              <label class="listLv1-item-count">0</label>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
+
+    // listData.forEach((data) => {
+    //   // lvlField, idField, titleField, countField
+    //   template += `
+    //     <div class="listLvl1-item" data-index=${data.id}>
+    //       <div class="listLv1-item-left">
+    //         <div class="icon-container">
+    //           <label class="listLv1-item-icon">🔥</label>
+    //         </div>
+    //         <div class="listLv1-item-title-outer">
+    //           <label class="listLv1-item-title item-title">${data.title}</label>
+    //         </div>
+    //       </div>
+    //       <div class="listLv1-item-right">
+    //         <div id="delListLvl1" class="icon-container" data-index=${data.id}>
+    //           <label class="del-icon"></label>
+    //         </div>
+    //         <div class="listLv1-item-count-outer">
+    //           <label class="listLv1-item-count">${data.count}</label>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   `;
+    // });
     template += '</div>';
     $listLvl1ContentContainer.innerHTML = template;
     const $listLvl1Content = document.querySelector('.listLvl1-content');
-    return { $listLvl1Header, $listLvl1Content };
   }
 
   eventBinding() {
     /*
-      목록 추가 클릭
-      목록 추가 (enter)
-      목록 추가 취소 (esc)
-      목록 리스트 삭제
-      목록 리스트 클릭 -> 할일 list render
+      [x]목록 추가 클릭
+      [x]목록 추가 취소 (esc)
+      [x]목록 추가 (enter)
+      []목록 리스트 삭제
+      []목록 리스트 클릭 -> 할일 list render
      */
+    const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
     // 목록 추가 클릭
     document.querySelector('#addListLvl1').addEventListener('click', () => {
       // 목록 추가 input dom
       this.$displayAddListLvl1 = this.displayAddListLvl1();
-
-      // if (!this.$displayAddListLvl1) {
-      //   this.$displayAddListLvl1
-      //     .querySelector('#listLv1-item-input')
-      //     .addEventListener('keyup', (e) => {
-      //       debugger;
-      //       console.log(e);
-      //     });
-      // }
+      $listLv1ItemInput.focus();
     });
-    // 목록 추가 (enter)
-    document
-      .querySelector('#listLv1-item-input')
-      .addEventListener('keyup', (e) => {
-        switch (e.key) {
-          case 'Escape':
-            //keyCode 27
-            e.target.value = '';
-            this.displayAddListLvl1();
-            break;
-          case 'Enter':
-            //keyCode 13
-            let biggestNum = this.data.sort((a, b) => b.id - a.id)[0].id;
-            const listData = {
-              lvl: 1,
-              id: ++biggestNum,
-              title: e.target.value,
-              count: 0,
-            };
-            this.data.push(listData);
-            this.displayAddListLvl1();
-            break;
-
-          default:
-            break;
-        }
-      });
     // 목록 추가 취소 (esc)
+    // 목록 추가 (enter)
+    $listLv1ItemInput.addEventListener('keyup', (e) => {
+      switch (e.key) {
+        case 'Escape':
+          //keyCode 27
+          e.target.value = '';
+          this.displayAddListLvl1();
+          break;
+        case 'Enter':
+          //keyCode 13
+          this.addDate(e.target.value);
+          this.renderListLvl1(this.$listLvl1ContentContainer, this.data);
+          // this.displayAddListLvl1();
+          break;
+
+        default:
+          break;
+      }
+    });
     // 목록 리스트 삭제
+    document.querySelector('#delListLvl1').addEventListener('click', (e) => {
+      debugger;
+      this.data = this.data.filter((v) => v.id !== e.target.dataset.index);
+      this.renderListLvl1(this.$listLvl1ContentContainer, this.data);
+    });
     // 목록 리스트 클릭 -> 할일 list render
   }
 
   displayAddListLvl1() {
     const target = document.querySelector('#add-listLvl1-item');
     target.classList.toggle('hidden');
-    // const template = `
-    //   <div class="add-listLvl1-item listLvl1-item ">
-    //     <div class="listLv1-item-left">
-    //       <div class="icon-container">
-    //         <label class="listLv1-item-icon">🔥</label>
-    //       </div>
-    //       <div class="listLv1-item-input-outer">
-    //         <input id="listLv1-item-input" type="text" />
-    //       </div>
-    //     </div>
-    //     <div class="listLv1-item-right">
-    //       <div class="listLv1-item-count-outer">
-    //         <label class="listLv1-item-count">0</label>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
+  }
 
-    // target.innerHTML = template;
-    // return target;
+  addDate(title) {
+    let biggestNum = [...this.data].sort((a, b) => b.id - a.id)[0].id;
+    const listData = {
+      lvl: 1,
+      id: ++biggestNum,
+      title,
+      count: 0,
+    };
+    this.data.push(listData);
+
+    e.target.value = '';
+  }
+
+  removeData() {}
+
+  getData() {
+    return this.data;
+  }
+}
+
+export class listLvl1Item {
+  constructor({ id, title, count }) {
+    this.id = id;
+    this.title = title;
+    this.count = count;
+    this.template = `
+      <div class="listLvl1-item" data-index=${id}>
+        <div class="listLv1-item-left">
+          <div class="icon-container">
+            <label class="listLv1-item-icon">🔥</label>
+          </div>
+          <div class="listLv1-item-title-outer">
+            <label class="listLv1-item-title item-title">${title}</label>
+          </div>
+        </div>
+        <div class="listLv1-item-right">
+          <div id="delListLvl1" class="icon-container">
+            <label class="del-icon"></label>
+          </div>
+          <div class="listLv1-item-count-outer">
+            <label class="listLv1-item-count">${count}</label>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  getHtml() {
+    return this.template;
+  }
+  getIndex() {
+    return this.id;
   }
 }
