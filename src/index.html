@@ -9,12 +9,113 @@
   <body>
     <!-- <div id="root"></div> -->
     <div class="container">
-      <div class="header"></div>
+      <div class="header">
+        <label>Pmodoro Todolist</label>
+        <label>
+          check/ listLvl2-title/ listLvl2-item-title || listLv2-item-time-count/
+          listLvl2-item-status</label
+        >
+      </div>
       <div class="content">
         <div class="listLvl1">
-
+          <div class="listLvl1-header">
+            <label class="listLvl1-title">목록</label>
+            <div class="icon-container">
+              <label class="add-icon"></label>
+            </div>
+          </div>
+          <div class="listLvl1-content">
+            <!-- 반복 -->
+            <div class="listLvl1-item">
+              <div class="listLv1-item-left">
+                <div class="icon-container">
+                  <label class="listLv1-item-icon">🔥</label>
+                </div>
+                <div class="listLv1-item-title-outer">
+                  <label class="listLv1-item-title">회사 업무</label>
+                </div>
+              </div>
+              <div class="listLv1-item-right">
+                <div class="icon-container">
+                  <label class="del-icon"></label>
+                </div>
+                <div class="listLv1-item-count-outer">
+                  <label class="listLv1-item-count">2</label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="listLvl2"></div>
+        <div class="listLvl2">
+          <div class="listLvl2-header">
+            <div class="listLvl2-header-left">
+              <div class="listLvl2-title">회사 업무</div>
+              <div class="icon-container">
+                <label class="add-icon"></label>
+              </div>
+            </div>
+            <div class="listLvl2-header-right">
+              <div class="listLvl2-Count">0/2</div>
+            </div>
+          </div>
+          <div class="listLvl2-content">
+            <!-- 반복 -->
+            <div class="listLvl2-item">
+              <div class="listLvl2-item-left">
+                <div class="listLvl2-check"></div>
+                <div class="listLvl2-item-title-outer">
+                  <label class="listLv2-item-title"
+                    >A 프로젝트 회의 참석하기</label
+                  >
+                </div>
+                <div class="listLvl2-item-time-outer">
+                  <label class="listLv2-item-time">(20m)</label>
+                </div>
+                <div class="listLvl2-item-pomo-icon icon-container">
+                  <label class="listLv1-item-icon">🎖</label>
+                </div>
+                <div class="listLv2-item-pomo-count-outer">
+                  <label class="listLv2-item-pomo-count">3</label>
+                </div>
+              </div>
+              <div class="listLvl2-item-right">
+                <div class="listLvl2-item-time-count-outer">
+                  <label class="listLv2-item-time-count">09:33</label>
+                </div>
+                <div class="listLvl2-item-status">
+                  <div class="listLvl2-item-start">
+                    <label class="">▶️</label>
+                  </div>
+                  <div class="listLvl2-item-pause">
+                    <label class="">⏸</label>
+                  </div>
+                  <div class="listLvl2-item-stop">
+                    <label class="">⏹</label>
+                  </div>
+                </div>
+                <div class="listLvl2-item-status-del icon-container">
+                  <label class="del-icon"></label>
+                </div>
+              </div>
+            </div>
+
+            <!-- lsitLvl2 추가 -->
+            <div class="add-listLvl2-item-container">
+              <div class="add-listLvl2-header">
+                <input type="text" />
+              </div>
+              <div class="add-listLvl2-body">
+                <label class="add-listLvl2-pomo-title">포모도로 시간</label>
+                <input type="number" />
+                <label>분</label>
+              </div>
+              <div class="add-listLvl2-footer">
+                <div class="listLvl2-add-btn">저장</div>
+                <div class="listLvl2-cancle-btn">취소</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <img src="./deleteIcon.png" alt="" srcset="" />
