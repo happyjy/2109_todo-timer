@@ -1,4 +1,10 @@
-.listLvl1{
+/* 공통 */
+
+.high-light {
+  background: cornflowerblue !important;
+}
+
+.listLvl1 {
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -6,4 +12,66 @@
   border-radius: 4px;
   border: 1px black solid;
   background: #fff;
+  row-gap: 7px;
 }
+
+/* Level1: header */
+
+.listLvl1-header {
+  /* display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  column-gap: 5px;
+  padding: 5px; */
+}
+
+.listLvl1-title {}
+
+.icon-container {}
+
+.add-icon {}
+
+/* Level1: content */
+
+.listLvl1-content {
+  width: 100%;
+  padding: 0 5px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 3px;
+}
+
+.listLvl1-item {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  align-items: center;
+  justify-content: space-between;
+  background: bisque;
+  padding: 5px 10px;
+}
+
+.listLv1-item-left, .listLv1-item-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.icon-container {}
+
+.listLv1-item-icon {}
+
+.listLv1-item-title-outer {}
+
+.listLv1-item-title {}
+
+.icon-container {}
+
+.del-icon {}
+
+.listLv1-item-count-outer {}
+
+.listLv1-item-count {}
