@@ -1,1 +1,1 @@
-console.log('init1');
+console.log('### init.js');
