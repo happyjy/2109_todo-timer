@@ -7,10 +7,21 @@ import './css/listLvl1.css';
 import './css/listLvl2.css';
 import './css/reset.css';
 // import addIcon from './assets/addIcon.png';
-import { listLvl1Dummy } from './js/dummyData.js';
+import { listLvl1Dummy, listLvl2Dummy } from './js/dummyData.js';
 import { listLvl1 } from './js/listLvl1.js';
-console.log('### index.js: ', listLvl1, listLvl1Dummy);
+console.log('### index.js: ' /* , listLvl1, listLvl1Dummy */);
 (() => {
+  // data
+
+  listLvl1Dummy.map((listLvl1Data) => {
+    listLvl1Data.count = listLvl2Dummy.filter((listLvl2Data) => {
+      return listLvl2Data.upperLvlId === listLvl1Data.id;
+    }).length;
+    return listLvl1Data;
+  });
+
+  console.log({ listLvl1Dummy, listLvl2Dummy });
+
   const listLvl1Inst = new listLvl1({
     selector: '#listLvl1',
     headerSelector: '#listLvl1-header',
@@ -19,20 +30,20 @@ console.log('### index.js: ', listLvl1, listLvl1Dummy);
     dataField: {
       lvlField: 'lvl',
       idField: 'id',
-      labelField: 'title',
+      s: 'title',
       countField: 'count',
     },
     changeEvent: {
-      addListLvl1: (event) => {
+      onAddListLvl1: (event) => {
         console.log('# addListLvl1: ', event);
       },
-      delListLvl1: (event) => {
+      onDelListLvl1: (event) => {
         console.log('# delListLvl1: ', event);
       },
-      modifyListLvl1: (event) => {
+      onModifyListLvl1: (event) => {
         console.log('# modifyListLvl1: ', event);
       },
-      clickListLvlItem: (event) => {
+      onClickListLvlItem: (event) => {
         console.log('# clickListLvlItem: ', event);
       },
     },

@@ -1,9 +1,23 @@
+
+
 /* 공통 */
 
 .high-light {
   background: cornflowerblue !important;
 }
 
+/* target */
+#listLvl1{}
+#listLvl1-header{
+  width: 100%;
+}
+#listLvl1-content{
+  width: 100%;
+}
+
+
+
+/*  */
 .listLvl1 {
   display: flex;
   flex-direction: column;

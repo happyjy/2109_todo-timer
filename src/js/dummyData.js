@@ -1,7 +1,7 @@
 export const listLvl1Dummy = [
-  { lvl: 1, id: 1, title: '회사업무', count: 2 },
-  { lvl: 1, id: 2, title: '집안 일', count: 1 },
-  { lvl: 1, id: 3, title: '일어야할 책', count: 10 },
+  { lvl: 1, id: 1, title: '회사업무' /* , count: 2 */ },
+  { lvl: 1, id: 2, title: '집안 일' /* , count: 1 */ },
+  { lvl: 1, id: 3, title: '일어야할 책' /* , count: 1 */ },
 ];
 
 export const listLvl2Dummy = [
