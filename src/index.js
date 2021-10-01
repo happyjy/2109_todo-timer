@@ -9,7 +9,7 @@ import './css/reset.css';
 // import addIcon from './assets/addIcon.png';
 import { listLvl1Dummy, listLvl2Dummy } from './js/dummyData.js';
 import { listLvl1 } from './js/listLvl1.js';
-console.log('### index.js: ' /* , listLvl1, listLvl1Dummy */);
+// console.log('### index.js: ' /* , listLvl1, listLvl1Dummy */);
 (() => {
   // data
 

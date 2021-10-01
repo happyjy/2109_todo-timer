@@ -1,4 +1,6 @@
-console.log('### listLvl1.js');
+// console.log('### listLvl1.js');
+
+import { bind } from 'file-loader';
 
 export class listLvl1 {
   constructor({
@@ -9,14 +11,14 @@ export class listLvl1 {
     dataField,
     changeEvent,
   }) {
-    console.log(
-      '### listLvl1 > constructor',
-      selector,
-      headerSelector,
-      contentSelector,
-      data,
-      dataField,
-    );
+    // console.log(
+    //   '### listLvl1 > constructor',
+    //   selector,
+    //   headerSelector,
+    //   contentSelector,
+    //   data,
+    //   dataField,
+    // );
 
     this.selector = selector;
     this.headerSelector = headerSelector;
@@ -40,27 +42,13 @@ export class listLvl1 {
   }
 
   initialize([$listLvl1HeaderContainer, $listLvl1ContentContainer], listData) {
-    // dropdownLabel.classList.add('dropdown-select-label-container');
-    // let render = `
-    // const dropdownLabel = document.createElement('div');
-    //         <span class="dropdown-select-label">${emptyLabel}</span>
-    //         <div class="dropdown-select-arrow-container">
-    //             <div class="dropdown-select-arrow"></div>
-    //         </div>
-    //     `;
-    // dropdownLabel.insertAdjacentHTML('afterbegin', render);
-    // selector.appendChild(dropdownLabel);
-    // 생성된 라벨 영역을 리턴해준다.
-    // return dropdownLabel;
-
     // # lvl1 header
     //  * 추가 기능
-
     const $listLvl1Header = document.createElement('div');
     $listLvl1Header.classList.add(...['listLvl1-header', 'list-header']);
     const listLvl1HeaderTemplate = `
       <label class="listLvl1-title header-title">목록</label>
-      <div class="icon-container">
+      <div id="addListLvl1" class="icon-container">
         <label class="add-icon"></label>
       </div>
     `;
@@ -69,28 +57,6 @@ export class listLvl1 {
 
     // # lvl1 content
     //  * 삭제 기능
-    // const $listLvl1Content = document.createElement('div');
-    // $listLvl1Content.classList.add('listLvl1-content');
-    // const listLvl1ContentTemplate = `
-    //   <div class="listLvl1-item" data-index=${idField}>
-    //     <div class="listLv1-item-left">
-    //       <div class="icon-container">
-    //         <label class="listLv1-item-icon">🔥</label>
-    //       </div>
-    //       <div class="listLv1-item-title-outer">
-    //         <label class="listLv1-item-title item-title">${titleField}</label>
-    //       </div>
-    //     </div>
-    //     <div class="listLv1-item-right">
-    //       <div class="icon-container">
-    //         <label class="del-icon"></label>
-    //       </div>
-    //       <div class="listLv1-item-count-outer">
-    //         <label class="listLv1-item-count">${countField}</label>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
     let template = '<div class="listLvl1-content">';
     listData.forEach((data) => {
       // lvlField, idField, titleField, countField
@@ -113,8 +79,29 @@ export class listLvl1 {
             </div>
           </div>
         </div>
+
       `;
     });
+    // <!-- 추가 input template -->
+    template += `
+      <div id="add-listLvl1-item" class="hidden">
+        <div class="add-listLvl1-item listLvl1-item">
+          <div class="listLv1-item-left">
+            <div class="icon-container">
+              <label class="listLv1-item-icon">🔥</label>
+            </div>
+            <div class="listLv1-item-input-outer">
+              <input id="listLv1-item-input" type="text" />
+            </div>
+          </div>
+          <div class="listLv1-item-right">
+            <div class="listLv1-item-count-outer">
+              <label class="listLv1-item-count">0</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
     template += '</div>';
     $listLvl1ContentContainer.innerHTML = template;
     const $listLvl1Content = document.querySelector('.listLvl1-content');
@@ -122,8 +109,81 @@ export class listLvl1 {
   }
 
   eventBinding() {
-    // 목록 추가
+    /*
+      목록 추가 클릭
+      목록 추가 (enter)
+      목록 추가 취소 (esc)
+      목록 리스트 삭제
+      목록 리스트 클릭 -> 할일 list render
+     */
+    // 목록 추가 클릭
+    document.querySelector('#addListLvl1').addEventListener('click', () => {
+      // 목록 추가 input dom
+      this.$displayAddListLvl1 = this.displayAddListLvl1();
+
+      // if (!this.$displayAddListLvl1) {
+      //   this.$displayAddListLvl1
+      //     .querySelector('#listLv1-item-input')
+      //     .addEventListener('keyup', (e) => {
+      //       debugger;
+      //       console.log(e);
+      //     });
+      // }
+    });
+    // 목록 추가 (enter)
+    document
+      .querySelector('#listLv1-item-input')
+      .addEventListener('keyup', (e) => {
+        switch (e.key) {
+          case 'Escape':
+            //keyCode 27
+            e.target.value = '';
+            this.displayAddListLvl1();
+            break;
+          case 'Enter':
+            //keyCode 13
+            let biggestNum = this.data.sort((a, b) => b.id - a.id)[0].id;
+            const listData = {
+              lvl: 1,
+              id: ++biggestNum,
+              title: e.target.value,
+              count: 0,
+            };
+            this.data.push(listData);
+            this.displayAddListLvl1();
+            break;
+
+          default:
+            break;
+        }
+      });
+    // 목록 추가 취소 (esc)
     // 목록 리스트 삭제
     // 목록 리스트 클릭 -> 할일 list render
+  }
+
+  displayAddListLvl1() {
+    const target = document.querySelector('#add-listLvl1-item');
+    target.classList.toggle('hidden');
+    // const template = `
+    //   <div class="add-listLvl1-item listLvl1-item ">
+    //     <div class="listLv1-item-left">
+    //       <div class="icon-container">
+    //         <label class="listLv1-item-icon">🔥</label>
+    //       </div>
+    //       <div class="listLv1-item-input-outer">
+    //         <input id="listLv1-item-input" type="text" />
+    //       </div>
+    //     </div>
+    //     <div class="listLv1-item-right">
+    //       <div class="listLv1-item-count-outer">
+    //         <label class="listLv1-item-count">0</label>
+    //       </div>
+    //     </div>
+    //   </div>
+    // `;
+
+    // target.innerHTML = template;
+    // return target;
   }
 }
