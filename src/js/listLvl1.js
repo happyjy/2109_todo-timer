@@ -10,9 +10,9 @@ export class listLvl1 {
     addItemLvl1Selector,
     data,
     dataField,
-    // header,
-    // renderListLvl2,
+
     listLvl2Inst,
+    changeEvent: { updateCurrentListLvl1Id },
   }) {
     this.selector = selector;
     this.headerSelector = headerSelector;
@@ -26,25 +26,18 @@ export class listLvl1 {
     this.dataField = dataField;
     // lvlField, idField, titleField, countField
 
-    // this.header = header;
-    // this.header.initialize();
+    this.updateCurrentListLvl1Id = updateCurrentListLvl1Id;
 
     this.$listLvl1HeaderContainer = document.querySelector(headerSelector);
     this.$listLvl1ContentContainer = document.querySelector(contentSelector);
 
     const { listLvl1Header, listLvl1Content } = this.initialize(
       [this.$listLvl1HeaderContainer, this.$listLvl1ContentContainer],
-      data,
+      this.data,
     );
     this.eventBinding();
 
     this.listLvl2Inst = listLvl2Inst;
-    // this.callback = renderListLvl2;
-
-    // this.onAddListLvl1 = changeEvent.onAddListLvl1;
-    // this.onDelListLvl1 = changeEvent.onDelListLvl1;
-    // this.onModifyListLvl1 = changeEvent.onModifyListLvl1;
-    // this.onClickListLvlItem = changeEvent.onClickListLvlItem;
   }
 
   initialize([$listLvl1HeaderContainer, $listLvl1ContentContainer], listData) {
@@ -82,7 +75,6 @@ export class listLvl1 {
     // # List lvl1 item
     const $listLvl1Content = document.createElement('div');
     $listLvl1Content.classList.add('listLvl1-content');
-    // let template = '<div class="listLvl1-content">';
     listData.forEach((v) => {
       const inst = new ListLvl1Item(v);
       inst.render();
@@ -121,7 +113,7 @@ export class listLvl1 {
           break;
         case 'Enter':
           //keyCode 13
-          this.addDate(e.target.value);
+          this.addData(e.target.value);
           this.toggleItemLvl1();
           e.target.value = '';
 
@@ -156,15 +148,17 @@ export class listLvl1 {
           target = target.parentElement;
         }
         if (target.classList.contains('listLvl1-item')) {
-          // item click -> hieghtlight
+          // hieghtlight
           this.listLvl1ItemInstList.forEach((listLvl1ItemInst) => {
             listLvl1ItemInst.getDom().classList.remove('high-light');
           });
           this.getDomHasInst(target).classList.add('high-light');
           // 목록 item 클릭 -> 할일 header, list render
           const clickedListLvl1Inst = this.getDomHasInst(target).inst;
-          // this.callback(clickedListLvl1Id);
-          this.listLvl2Inst.renderList(clickedListLvl1Inst);
+          this.listLvl2Inst.render(clickedListLvl1Inst);
+
+          // 클릭한 list lvl1 id
+          this.updateCurrentListLvl1Id(clickedListLvl1Inst.id);
           return;
         }
       });
@@ -183,7 +177,7 @@ export class listLvl1 {
     target.classList.toggle('hidden');
   }
 
-  addDate(title) {
+  addData(title) {
     let biggestNum = [...this.data].sort((a, b) => b.id - a.id)[0].id;
     const listData = {
       lvl: 1,
@@ -193,6 +187,8 @@ export class listLvl1 {
     };
     this.data.push(listData);
     this.renderListLvl1(this.$listLvl1ContentContainer, this.data);
+    console.log(this.currentState());
+    debugger;
     return this.data;
   }
 

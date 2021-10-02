@@ -7,13 +7,11 @@ export class ListLvl2Item {
     this.contentSelector = contentSelector;
     this.addItem = addItem;
     this.delItem = delItem;
-
     this.lvl2Data = lvl2Data;
 
     this.$listLvl2ContentContainer = document.querySelector(
       this.contentSelector,
     );
-
     // this.initialize();
   }
 

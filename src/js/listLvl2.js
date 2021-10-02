@@ -10,12 +10,16 @@ export class listLvl2 {
     contentSelector,
     addItemLvl2Selector,
     data,
+    changeEvent: { addListLvl2Item },
   }) {
     this.selector = selector;
     this.headerSelector = headerSelector;
     this.contentSelector = contentSelector;
     this.addItemLvl2Selector = addItemLvl2Selector;
     this.data = data;
+    this.addListLvl2Item = addListLvl2Item;
+
+    this.filteredDataList = [];
 
     this.$listLvl2HeaderContainer = document.querySelector(this.headerSelector);
     this.$listLvl2ContentContainer = document.querySelector(
@@ -30,7 +34,6 @@ export class listLvl2 {
     this.ListHeader = new ListHeader({
       headerSelector,
       changeEvent: {
-        // [issue]scope
         toggleItemLvl2: () => this.toggleItemLvl2(),
       },
     });
@@ -38,21 +41,21 @@ export class listLvl2 {
     this.listLvl2ItemInstList = [];
   }
 
-  renderList(clickedListLvl1Inst) {
-    const filteredDataList = this.data.filter(
+  render(clickedListLvl1Inst) {
+    this.filteredDataList = this.data.filter(
       (v) => v.upperLvlId === clickedListLvl1Inst.id,
     );
 
     // lvl2 header
     this.ListHeader.render({
       lvl1Inst: clickedListLvl1Inst,
-      data: filteredDataList,
+      data: this.filteredDataList,
     });
 
     // lvl2 content
     const $listLvl2Content = document.createElement('div');
     $listLvl2Content.classList.add('listLvl2-content');
-    filteredDataList.forEach((v) => {
+    this.filteredDataList.forEach((v) => {
       const listLvl2ItemInst = new ListLvl2Item({
         contentSelector: this.contentSelector,
         lvl1Inst: clickedListLvl1Inst,
@@ -71,12 +74,63 @@ export class listLvl2 {
     this.$listLvl2ContentContainer.append($listLvl2Content);
   }
 
-  eventBinding() {}
+  eventBinding() {
+    const $pomoTitle = document.querySelector('#pomo-title');
+    const $pomoTime = document.querySelector('#pomo-time');
+    const $pomoSave = document.querySelector('#pomo-save');
+    const $pomoCancle = document.querySelector('#pomo-cancle');
+
+    $pomoTime.addEventListener('keyup', ({ target }) => {
+      if (target.value > 60) {
+        target.value = '';
+        alert('60분 이하로 작성해주세요');
+      }
+    });
+
+    $pomoSave.addEventListener('click', (e) => {
+      let pomoTitleValue = $pomoTitle.value.trim();
+      let pomoTimeValue = $pomoTime.value.trim();
+
+      if (!pomoTitleValue || !pomoTimeValue) {
+        alert('빠짐 없이 입력해주세요.');
+        return;
+      }
+
+      let biggestNum = [...this.filteredDataList].sort((a, b) => b.id - a.id)[0]
+        .id;
+
+      this.addListLvl2Item({
+        id: ++biggestNum,
+        pomoTitle: $pomoTitle.value,
+        pomoTime: $pomoTime.value,
+      });
+      // todo : render list lvl2
+      // this.addItem({ pomoTitle: $pomoTitle.value, pomoTime: $pomoTime.value });
+    });
+
+    $pomoCancle.addEventListener('click', (e) => {
+      pomoTitle.value = '';
+      pomoTime.value = '';
+      this.toggleItemLvl2;
+    });
+  }
 
   toggleItemLvl2() {
     this.$addItemLvl2Container.classList.toggle('hidden');
   }
 
-  addItem() {}
+  addItem({ pomoTitle, pomoTime }) {
+    // const newId;
+    // const upperLvlId;
+    // const newListLvl2Item = {
+    //   lvl: 2,
+    //   id: newId,
+    //   upperLvlId: upperLvlId,
+    //   title: pomoTitle,
+    //   time: 0,
+    //   pomoCnt: pomoTime,
+    //   isFinish: false,
+    // };
+  }
   delItem() {}
 }

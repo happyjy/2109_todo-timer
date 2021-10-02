@@ -10,7 +10,7 @@ import './css/listLvl1.css';
 import './css/listLvl2.css';
 import './css/reset.css';
 // import addIcon from './assets/addIcon.png';
-import { listLvl1Dummy, listLvl2Dummy } from './js/dummyData.js';
+import { state, listLvl1Dummy, listLvl2Dummy } from './js/dummyData.js';
 import { listLvl1 } from './js/listLvl1.js';
 import { listLvl2 } from './js/listLvl2.js';
 import { ListHeader } from './js/header.js';
@@ -22,14 +22,60 @@ import { ListHeader } from './js/header.js';
     }).length;
     return listLvl1Data;
   });
+  // const abc = 0;
+  // let state = {
+  //   listLvl1Dummy,
+  //   listLvl2Dummy,
+  //   set currentListLvl1Id(id) {
+  //     console.log('### setter: ', id);
+  //     this.log.push();
+  //     console.log('### setter > log: ', this.log);
+  //   },
+  //   log: [],
+
+  //   currentState: function () {
+  //     debugger;
+  //     console.log(this);
+  //   },
+  //   changeEvent: {
+  //     updateCurrentListLvl1Id: function (id) {
+  //       debugger;
+  //       console.log(this);
+  //       this.currentListLvl1Id = id;
+  //     },
+  //   },
+  // };
+
+  const addListLvl2Item = ({ id, pomoTitle, pomoTime }) => {
+    const newListLvl2Item = {
+      lvl: 2,
+      id,
+      upperLvlId: state.currentListLvl1Id,
+      title: pomoTitle,
+      time: pomoTime,
+      pomoCnt: 0,
+      isFinish: false,
+    };
+
+    listLvl2Dummy.push(newListLvl2Item);
+    console.log(listLvl2Dummy);
+  };
+
+  const updateCurrentListLvl1Id = (id) => {
+    debugger;
+    state.currentListLvl1Id = id;
+    console.log({ state });
+  };
 
   // 할 일 리스트(List level2)
+  console.log({ state });
   const listLvl2Inst = new listLvl2({
     selector: '#listLvl2',
     headerSelector: '#listLvl2-header',
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
     data: listLvl2Dummy,
+    state,
     dataField: {
       lvlField: 'lvl',
       idField: 'id',
@@ -39,57 +85,30 @@ import { ListHeader } from './js/header.js';
       pomoCntField: 'pomoCnt',
       isFinishField: 'isFinish',
     },
+    changeEvent: {
+      addListLvl2Item,
+    },
   });
 
-  // 목록(List level1)
-  // const listLvl1HeaderInst = new ListHeader({
-  //   selector: '#listLvl1-header',
-  //   event: {
-  //     addData: function (title) {
-  //       console.log(listLvl1Dummy);
-  //       let biggestNum = [...listLvl1Dummy].sort((a, b) => b.id - a.id)[0].id;
-  //       const listData = {
-  //         lvl: 1,
-  //         id: ++biggestNum,
-  //         title,
-  //         count: 0,
-  //       };
-  //       listLvl1Dummy.push(listData);
-  //       this.renderListLvl1(this.$listLvl1ContentContainer, listLvl1Dummy);
-  //     },
-  //   },
-  // });
   const listLvl1Inst = new listLvl1({
     selector: '#listLvl1',
     headerSelector: '#listLvl1-header',
     contentSelector: '#listLvl1-content',
     addItemLvl1Selector: '#add-item-lvl1',
     data: listLvl1Dummy,
+    state,
     dataField: {
       lvlField: 'lvl',
       idField: 'id',
       titleField: 'title',
       countField: 'count',
     },
-    // header: listLvl1HeaderInst,
-    // content: new ListContent(),
     listLvl2Inst,
-    event: {
-      addDate: (title) => {
-        listLvl1HeaderInst.addDate(title);
-      },
+    changeEvent: {
+      updateCurrentListLvl1Id,
+      // addData: (title) => {
+      //   listLvl1HeaderInst.addData(title);
+      // },
     },
   });
-
-  // const listLvl1ContainerInst = new listLvl1ContainerInst({
-  //   listLvl1HeaderInst,
-  //   listLvl1Inst,
-  // });
 })();
-
-// const img = document.createElement('img');
-// img.src = addIcon;
-
-// const root = document.querySelector('#root');
-
-// root.appendChild(img);

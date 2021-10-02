@@ -1,3 +1,5 @@
+export const state = { currentListLvl1Id: 0 };
+
 export const listLvl1Dummy = [
   { lvl: 1, id: 1, title: '회사업무' /* , count: 2 */ },
   { lvl: 1, id: 2, title: '집안 일' /* , count: 1 */ },

@@ -52,12 +52,13 @@ export class ListHeader {
       this.$displayAddListLvl1 = this.toggleItemLvl2();
       $listLv1ItemInput.focus();
     });
-    // 목록 추가 클릭
-    document.querySelector('#addListLvl1').addEventListener('click', () => {
-      // 목록 추가 input dom
-      this.$displayAddListLvl1 = this.toggleItemLvl1();
-      $listLv1ItemInput.focus();
-    });
+
+    // // 목록 추가 클릭
+    // document.querySelector('#addListLvl1').addEventListener('click', () => {
+    //   // 목록 추가 input dom
+    //   this.$displayAddListLvl1 = this.toggleItemLvl1();
+    //   $listLv1ItemInput.focus();
+    // });
 
     // 목록 추가 취소 (esc)
     // 목록 추가 (enter)
@@ -70,7 +71,7 @@ export class ListHeader {
           break;
         case 'Enter':
           //keyCode 13
-          this.addDate(e.target.value);
+          this.addData(e.target.value);
           this.toggleItemLvl1();
           e.target.value = '';
           break;
