@@ -7,6 +7,7 @@ export class listLvl1 {
     selector,
     headerSelector,
     contentSelector,
+    addItemLvl1Selector,
     data,
     dataField,
     // header,
@@ -16,6 +17,8 @@ export class listLvl1 {
     this.selector = selector;
     this.headerSelector = headerSelector;
     this.contentSelector = contentSelector;
+    this.addItemLvl1Selector = addItemLvl1Selector;
+
     this.data = data;
     this.dataField = dataField;
     this.listLvl1ItemInst = [];
@@ -101,7 +104,7 @@ export class listLvl1 {
     // 목록 추가 클릭
     document.querySelector('#addListLvl1').addEventListener('click', () => {
       // 목록 추가 input dom
-      this.$displayAddListLvl1 = this.toggleAddListLvl1();
+      this.$displayAddListLvl1 = this.toggleItemLvl1();
       $listLv1ItemInput.focus();
     });
     // 목록 추가 취소 (esc)
@@ -111,12 +114,12 @@ export class listLvl1 {
         case 'Escape':
           //keyCode 27
           e.target.value = '';
-          this.toggleAddListLvl1();
+          this.toggleItemLvl1();
           break;
         case 'Enter':
           //keyCode 13
           this.addDate(e.target.value);
-          this.toggleAddListLvl1();
+          this.toggleItemLvl1();
           e.target.value = '';
           break;
 
@@ -167,8 +170,8 @@ export class listLvl1 {
     return targetDom;
   }
 
-  toggleAddListLvl1() {
-    const target = document.querySelector('#add-listLvl1-item');
+  toggleItemLvl1() {
+    const target = document.querySelector(this.addItemLvl1Selector);
     target.classList.toggle('hidden');
   }
 

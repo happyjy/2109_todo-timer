@@ -1,6 +1,6 @@
 #listLvl2-header,
 #listLvl2-content,
-#add-listLvl2-item{
+#add-item-lvl2{
   width: 100%;
 }
 
@@ -108,7 +108,7 @@
 
 .del-icon {}
 
-.add-listLvl2-item-container {
+.add-item-lvl2-container {
   display: flex;
   flex-direction: column;
   /* justify-items: center;
@@ -116,7 +116,7 @@
   background: lightgray;
 }
 
-.add-listLvl2-item-container>* {
+.add-item-lvl2-container>* {
   padding: 5px;
 }
 

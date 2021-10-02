@@ -3,12 +3,14 @@ export class ListHeader {
     headerSelector,
     /* , event */
     toggleAddList,
+    changeEvent: { toggleItemLvl2 },
   }) {
     // this.$listLvl1HeaderContainer = document.querySelector(selector);
     this.headerSelector = headerSelector;
-    this.addItemSelector = 'addItem';
+    this.addItemId = 'addItem';
     this.toggleAddList = toggleAddList;
 
+    this.toggleItemLvl2 = toggleItemLvl2;
     this.$listLvl2HeaderContainer = document.querySelector(this.headerSelector);
   }
 
@@ -23,16 +25,10 @@ export class ListHeader {
     $listHeader.classList.add('list-header');
     const filteredDataList = data.filter((v) => v.upperLvlId === lvl1Inst.id);
 
-    // const listLvl1HeaderTemplate = `
-    //   <label class="listLvl1-title header-title">목록</label>
-    //   <div id="addListLvl1" class="icon-container">
-    //     <label class="add-icon"></label>
-    //   </div>
-    // `;
     const listLvl2HeaderTemplate = `
       <div class="listLvl2-header-left">
         <div class="listLvl2-title header-title">${lvl1Inst.title}</div>
-        <div id="${this.addItemSelector}" class="icon-container">
+        <div id="${this.addItemId}" class="icon-container">
           <label class="add-icon"></label>
         </div>
       </div>
@@ -47,19 +43,19 @@ export class ListHeader {
   }
 
   eventBinding() {
-    const $addItem = document.querySelector(`#${this.addItemSelector}`);
+    const $addItem = document.querySelector(`#${this.addItemId}`);
     const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
 
     // 목록 추가 클릭
     $addItem.addEventListener('click', () => {
       // 목록 추가 input dom
-      this.$displayAddListLvl1 = this.toggleAddListLvl2();
+      this.$displayAddListLvl1 = this.toggleItemLvl2();
       $listLv1ItemInput.focus();
     });
     // 목록 추가 클릭
     document.querySelector('#addListLvl1').addEventListener('click', () => {
       // 목록 추가 input dom
-      this.$displayAddListLvl1 = this.toggleAddListLvl1();
+      this.$displayAddListLvl1 = this.toggleItemLvl1();
       $listLv1ItemInput.focus();
     });
 
@@ -70,12 +66,12 @@ export class ListHeader {
         case 'Escape':
           //keyCode 27
           e.target.value = '';
-          this.toggleAddListLvl1();
+          this.toggleItemLvl1();
           break;
         case 'Enter':
           //keyCode 13
           this.addDate(e.target.value);
-          this.toggleAddListLvl1();
+          this.toggleItemLvl1();
           e.target.value = '';
           break;
 
@@ -85,8 +81,8 @@ export class ListHeader {
     });
   }
 
-  toggleAddListLvl1() {
-    const target = document.querySelector('#add-listLvl1-item');
+  toggleItemLvl1() {
+    const target = document.querySelector('#add-item-lvl1');
     target.classList.toggle('hidden');
   }
 

@@ -25,37 +25,39 @@ import { ListHeader } from './js/header.js';
     selector: '#listLvl2',
     headerSelector: '#listLvl2-header',
     contentSelector: '#listLvl2-content',
+    addItemLvl2Selector: '#add-item-lvl2',
     data: listLvl2Dummy,
-    dataField: {
-      lvlField: 'lvl',
-      idField: 'id',
-      titleField: 'title',
-      countField: 'count',
-    },
+    // dataField: {
+    //   lvlField: 'lvl',
+    //   idField: 'id',
+    //   titleField: 'title',
+    //   countField: 'count',
+    // },
   });
 
   // 목록(List level1)
-  const listLvl1HeaderInst = new ListHeader({
-    selector: '#listLvl1-header',
-    event: {
-      addData: function (title) {
-        console.log(listLvl1Dummy);
-        let biggestNum = [...listLvl1Dummy].sort((a, b) => b.id - a.id)[0].id;
-        const listData = {
-          lvl: 1,
-          id: ++biggestNum,
-          title,
-          count: 0,
-        };
-        listLvl1Dummy.push(listData);
-        this.renderListLvl1(this.$listLvl1ContentContainer, listLvl1Dummy);
-      },
-    },
-  });
+  // const listLvl1HeaderInst = new ListHeader({
+  //   selector: '#listLvl1-header',
+  //   event: {
+  //     addData: function (title) {
+  //       console.log(listLvl1Dummy);
+  //       let biggestNum = [...listLvl1Dummy].sort((a, b) => b.id - a.id)[0].id;
+  //       const listData = {
+  //         lvl: 1,
+  //         id: ++biggestNum,
+  //         title,
+  //         count: 0,
+  //       };
+  //       listLvl1Dummy.push(listData);
+  //       this.renderListLvl1(this.$listLvl1ContentContainer, listLvl1Dummy);
+  //     },
+  //   },
+  // });
   const listLvl1Inst = new listLvl1({
     selector: '#listLvl1',
     headerSelector: '#listLvl1-header',
     contentSelector: '#listLvl1-content',
+    addItemLvl1Selector: '#add-item-lvl1',
     data: listLvl1Dummy,
     dataField: {
       lvlField: 'lvl',
