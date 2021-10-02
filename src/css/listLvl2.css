@@ -1,3 +1,10 @@
+#listLvl2-header,
+#listLvl2-content,
+#add-listLvl2-item{
+  width: 100%;
+}
+
+
 .listLvl2 {
   display: flex;
   flex-direction: column;

@@ -9,15 +9,20 @@ export class listLvl1 {
     contentSelector,
     data,
     dataField,
-    changeEvent,
+    // header,
+    // renderListLvl2,
+    listLvl2Inst,
   }) {
     this.selector = selector;
     this.headerSelector = headerSelector;
     this.contentSelector = contentSelector;
     this.data = data;
-    this.listLvl1ItemInst = [];
     this.dataField = dataField;
+    this.listLvl1ItemInst = [];
     // lvlField, idField, titleField, countField
+
+    // this.header = header;
+    // this.header.initialize();
 
     this.$listLvl1HeaderContainer = document.querySelector(headerSelector);
     this.$listLvl1ContentContainer = document.querySelector(contentSelector);
@@ -28,15 +33,20 @@ export class listLvl1 {
     );
     this.eventBinding();
 
-    this.onAddListLvl1 = changeEvent.onAddListLvl1;
-    this.onDelListLvl1 = changeEvent.onDelListLvl1;
-    this.onModifyListLvl1 = changeEvent.onModifyListLvl1;
-    this.onClickListLvlItem = changeEvent.onClickListLvlItem;
+    this.listLvl2Inst = listLvl2Inst;
+    // this.callback = renderListLvl2;
+
+    // this.onAddListLvl1 = changeEvent.onAddListLvl1;
+    // this.onDelListLvl1 = changeEvent.onDelListLvl1;
+    // this.onModifyListLvl1 = changeEvent.onModifyListLvl1;
+    // this.onClickListLvlItem = changeEvent.onClickListLvlItem;
   }
 
   initialize([$listLvl1HeaderContainer, $listLvl1ContentContainer], listData) {
-    // # lvl1 header
-    //  * 추가 기능
+    /*
+      # lvl1 header
+       * 추가 기능
+     */
     const $listLvl1Header = document.createElement('div');
     $listLvl1Header.classList.add(...['listLvl1-header', 'list-header']);
     const listLvl1HeaderTemplate = `
@@ -47,9 +57,10 @@ export class listLvl1 {
     `;
     $listLvl1Header.insertAdjacentHTML('afterbegin', listLvl1HeaderTemplate);
     $listLvl1HeaderContainer.appendChild($listLvl1Header);
-
-    // # lvl1 content
-    //  * 삭제 기능
+    /*
+      # lvl1 content
+        * 삭제 기능
+     */
     const $listLvl1Content = this.renderListLvl1(
       $listLvl1ContentContainer,
       listData,
@@ -73,29 +84,6 @@ export class listLvl1 {
       $listLvl1Content.appendChild(inst.getDom());
     });
 
-    // # add List lvl1 item
-    // const $addListLvl1Item = document.createElement('div');
-    // $addListLvl1Item.classList.add('hidden');
-    // const addListLvl1Item = `
-    //   <div class="add-listLvl1-item listLvl1-item">
-    //     <div class="listLv1-item-left">
-    //       <div class="icon-container">
-    //         <label class="listLv1-item-icon">🔥</label>
-    //       </div>
-    //       <div class="listLv1-item-input-outer">
-    //         <input id="listLv1-item-input" type="text" />
-    //       </div>
-    //     </div>
-    //     <div class="listLv1-item-right">
-    //       <div class="listLv1-item-count-outer">
-    //         <label class="listLv1-item-count">0</label>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
-    // $addListLvl1Item.insertAdjacentHTML('afterbegin', addListLvl1Item);
-    // $listLvl1Content.appendChild($listLvl1Header);
-
     $listLvl1ContentContainer.append($listLvl1Content);
   }
 
@@ -104,8 +92,10 @@ export class listLvl1 {
       [x]목록 추가 클릭
       [x]목록 추가 취소 (esc)
       [x]목록 추가 (enter)
-      []목록 리스트 삭제
-      []목록 리스트 클릭 -> 할일 list render
+      [x]목록 리스트 삭제
+      []목록 리스트 클릭
+        - []할일 list render
+        - [x]hight-light
      */
     const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
     // 목록 추가 클릭
@@ -136,6 +126,7 @@ export class listLvl1 {
     });
 
     // 목록 리스트 삭제
+    // 목록 리스트 클릭(할일 list render, hight-light)
     document
       .querySelector('#listLvl1-content')
       .addEventListener('click', (e) => {
@@ -159,10 +150,13 @@ export class listLvl1 {
             listLvl1ItemInst.getDom().classList.remove('high-light');
           });
           this.getDomHasInst(target).classList.add('high-light');
+          // [...ing]목록 리스트 클릭 -> 할일 list render
+          const clickedListLvl1Inst = this.getDomHasInst(target).inst;
+          // this.callback(clickedListLvl1Id);
+          this.listLvl2Inst.renderList(clickedListLvl1Inst);
           return;
         }
       });
-    // 목록 리스트 클릭 -> 할일 list render
   }
 
   getDomHasInst(target) {
@@ -231,27 +225,6 @@ export class listLvl1Item {
     `;
     this.$listLvl1Item.insertAdjacentHTML('afterbegin', listLvl1ItemTemplate);
     this.$listLvl1Item.inst = this;
-
-    // this.template = `
-    //   <div class="listLvl1-item" data-index=${id}>
-    //     <div class="listLv1-item-left">
-    //       <div class="icon-container">
-    //         <label class="listLv1-item-icon">🔥</label>
-    //       </div>
-    //       <div class="listLv1-item-title-outer">
-    //         <label class="listLv1-item-title item-title">${title}</label>
-    //       </div>
-    //     </div>
-    //     <div class="listLv1-item-right">
-    //       <div class="delListLvl1 icon-container">
-    //         <label class="del-icon"></label>
-    //       </div>
-    //       <div class="listLv1-item-count-outer">
-    //         <label class="listLv1-item-count">${count}</label>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
   }
   heighLight(id) {}
   getDom() {
