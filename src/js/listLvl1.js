@@ -1,7 +1,6 @@
+import { getDomHasInst } from './common';
+
 // console.log('### listLvl1.js');
-
-import { bind } from 'file-loader';
-
 export class listLvl1 {
   constructor({
     selector,
@@ -59,17 +58,14 @@ export class listLvl1 {
       # lvl1 content
         * 삭제 기능
      */
-    const $listLvl1Content = this.renderListLvl1(
-      $listLvl1ContentContainer,
-      listData,
-    );
+    const $listLvl1Content = this.renderListLvl1(listData);
 
     return { $listLvl1Header, $listLvl1Content };
   }
 
-  renderListLvl1($listLvl1ContentContainer, listData) {
-    if ($listLvl1ContentContainer.innerHTML) {
-      $listLvl1ContentContainer.innerHTML = '';
+  renderListLvl1(listData = this.data) {
+    if (this.$listLvl1ContentContainer.innerHTML) {
+      this.$listLvl1ContentContainer.innerHTML = '';
     }
 
     // # List lvl1 item
@@ -82,7 +78,7 @@ export class listLvl1 {
       $listLvl1Content.appendChild(inst.getDom());
     });
 
-    $listLvl1ContentContainer.append($listLvl1Content);
+    this.$listLvl1ContentContainer.append($listLvl1Content);
   }
 
   eventBinding() {
@@ -137,7 +133,7 @@ export class listLvl1 {
           // 삭제 버튼
           const result = confirm('삭제하시겠습니까?');
           if (result == true) {
-            const domHasInst = this.getDomHasInst(e.target);
+            const domHasInst = getDomHasInst(e.target);
             this.removeData(domHasInst.inst.id);
           }
           return;
@@ -152,24 +148,16 @@ export class listLvl1 {
           this.listLvl1ItemInstList.forEach((listLvl1ItemInst) => {
             listLvl1ItemInst.getDom().classList.remove('high-light');
           });
-          this.getDomHasInst(target).classList.add('high-light');
+          getDomHasInst(target).classList.add('high-light');
           // 목록 item 클릭 -> 할일 header, list render
-          const clickedListLvl1Inst = this.getDomHasInst(target).inst;
+          const clickedListLvl1Inst = getDomHasInst(target).inst;
           this.listLvl2Inst.render(clickedListLvl1Inst);
 
-          // 클릭한 list lvl1 id
+          // 클릭 한 list lvl1 id
           this.updateCurrentListLvl1Id(clickedListLvl1Inst.id);
           return;
         }
       });
-  }
-
-  getDomHasInst(target) {
-    let targetDom = target;
-    while (!targetDom.inst) {
-      targetDom = targetDom.parentElement;
-    }
-    return targetDom;
   }
 
   toggleItemLvl1() {
@@ -186,15 +174,13 @@ export class listLvl1 {
       count: 0,
     };
     this.data.push(listData);
-    this.renderListLvl1(this.$listLvl1ContentContainer, this.data);
-    console.log(this.currentState());
-    debugger;
+    this.renderListLvl1(this.data);
     return this.data;
   }
 
   removeData(id) {
     this.data = this.data.filter((v) => v.id !== id);
-    this.renderListLvl1(this.$listLvl1ContentContainer, this.data);
+    this.renderListLvl1(this.data);
     return this.data;
   }
 

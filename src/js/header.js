@@ -1,7 +1,6 @@
 export class ListHeader {
   constructor({
     headerSelector,
-    /* , event */
     toggleAddList,
     changeEvent: { toggleItemLvl2 },
   }) {

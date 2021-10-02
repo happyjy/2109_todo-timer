@@ -22,6 +22,7 @@ import { ListHeader } from './js/header.js';
     }).length;
     return listLvl1Data;
   });
+
   // const abc = 0;
   // let state = {
   //   listLvl1Dummy,
@@ -46,6 +47,7 @@ import { ListHeader } from './js/header.js';
   //   },
   // };
 
+  const delListLvl2Item = (id) => {};
   const addListLvl2Item = ({ id, pomoTitle, pomoTime }) => {
     const newListLvl2Item = {
       lvl: 2,
@@ -58,13 +60,17 @@ import { ListHeader } from './js/header.js';
     };
 
     listLvl2Dummy.push(newListLvl2Item);
-    console.log(listLvl2Dummy);
+
+    console.log({ listLvl2Dummy, curr: state.currentListLvl1Id });
+
+    return listLvl2Dummy.filter(
+      (v) => v.upperLvlId === state.currentListLvl1Id,
+    );
+    // console.log(listLvl2Dummy);
   };
 
   const updateCurrentListLvl1Id = (id) => {
-    debugger;
     state.currentListLvl1Id = id;
-    console.log({ state });
   };
 
   // 할 일 리스트(List level2)
@@ -74,8 +80,7 @@ import { ListHeader } from './js/header.js';
     headerSelector: '#listLvl2-header',
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
-    data: listLvl2Dummy,
-    state,
+    data: { listLvl1Dummy, listLvl2Dummy },
     dataField: {
       lvlField: 'lvl',
       idField: 'id',
@@ -87,6 +92,7 @@ import { ListHeader } from './js/header.js';
     },
     changeEvent: {
       addListLvl2Item,
+      renderListLvl1,
     },
   });
 
@@ -96,7 +102,6 @@ import { ListHeader } from './js/header.js';
     contentSelector: '#listLvl1-content',
     addItemLvl1Selector: '#add-item-lvl1',
     data: listLvl1Dummy,
-    state,
     dataField: {
       lvlField: 'lvl',
       idField: 'id',
@@ -111,4 +116,8 @@ import { ListHeader } from './js/header.js';
       // },
     },
   });
+
+  function renderListLvl1(data) {
+    return listLvl1Inst.renderListLvl1(data);
+  }
 })();
