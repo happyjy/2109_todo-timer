@@ -1,6 +1,9 @@
 import './js/init.js';
+import './js/header.js';
+import './js/listLvl2Item';
 import './js/listLvl1.js';
 import './js/listLvl2.js';
+
 import './css/common.css';
 import './css/header.css';
 import './css/listLvl1.css';
@@ -27,12 +30,15 @@ import { ListHeader } from './js/header.js';
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
     data: listLvl2Dummy,
-    // dataField: {
-    //   lvlField: 'lvl',
-    //   idField: 'id',
-    //   titleField: 'title',
-    //   countField: 'count',
-    // },
+    dataField: {
+      lvlField: 'lvl',
+      idField: 'id',
+      upperLvlIdField: 'upperLvlId',
+      titleField: 'title',
+      timeField: 'time',
+      pomoCntField: 'pomoCnt',
+      isFinishField: 'isFinish',
+    },
   });
 
   // 목록(List level1)

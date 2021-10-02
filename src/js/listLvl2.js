@@ -1,6 +1,7 @@
 // console.log('### listLvl2.js');
 
 import { ListHeader } from './header';
+import { ListLvl2Item } from './listLvl2Item';
 
 export class listLvl2 {
   constructor({
@@ -17,6 +18,9 @@ export class listLvl2 {
     this.data = data;
 
     this.$listLvl2HeaderContainer = document.querySelector(this.headerSelector);
+    this.$listLvl2ContentContainer = document.querySelector(
+      this.contentSelector,
+    );
     this.$addItemLvl2Container = document.querySelector(
       this.addItemLvl2Selector,
     );
@@ -28,23 +32,43 @@ export class listLvl2 {
       changeEvent: {
         // [issue]scope
         toggleItemLvl2: () => this.toggleItemLvl2(),
-        // toggleItemLvl2: this.toggleItemLvl2.bind(this),
       },
     });
 
-    console.log(this.ListHeader);
+    this.listLvl2ItemInstList = [];
   }
 
   renderList(clickedListLvl1Inst) {
-    this.ListHeader.render({
-      lvl: 2,
-      lvl1Inst: clickedListLvl1Inst,
-      data: this.data,
-      // target: this.$listLvl2HeaderContainer,
-    });
+    const filteredDataList = this.data.filter(
+      (v) => v.upperLvlId === clickedListLvl1Inst.id,
+    );
 
     // lvl2 header
+    this.ListHeader.render({
+      lvl1Inst: clickedListLvl1Inst,
+      data: filteredDataList,
+    });
+
     // lvl2 content
+    const $listLvl2Content = document.createElement('div');
+    $listLvl2Content.classList.add('listLvl2-content');
+    filteredDataList.forEach((v) => {
+      const listLvl2ItemInst = new ListLvl2Item({
+        contentSelector: this.contentSelector,
+        lvl1Inst: clickedListLvl1Inst,
+        lvl2Data: this.data,
+        changeEvent: {
+          addItem: this.addItem.bind(this),
+          delItem: this.delItem.bind(this),
+        },
+      });
+
+      listLvl2ItemInst.render(v);
+      this.listLvl2ItemInstList.push(listLvl2ItemInst);
+      $listLvl2Content.appendChild(listLvl2ItemInst.getDom());
+    });
+
+    this.$listLvl2ContentContainer.append($listLvl2Content);
   }
 
   eventBinding() {}
@@ -52,4 +76,7 @@ export class listLvl2 {
   toggleItemLvl2() {
     this.$addItemLvl2Container.classList.toggle('hidden');
   }
+
+  addItem() {}
+  delItem() {}
 }

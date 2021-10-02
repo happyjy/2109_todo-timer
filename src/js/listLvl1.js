@@ -19,9 +19,11 @@ export class listLvl1 {
     this.contentSelector = contentSelector;
     this.addItemLvl1Selector = addItemLvl1Selector;
 
+    // # upper layer에서 data를 관리 할 필요 있음.
+    //  * listLvl1ItemInst, data
+    this.listLvl1ItemInstList = [];
     this.data = data;
     this.dataField = dataField;
-    this.listLvl1ItemInst = [];
     // lvlField, idField, titleField, countField
 
     // this.header = header;
@@ -82,8 +84,9 @@ export class listLvl1 {
     $listLvl1Content.classList.add('listLvl1-content');
     // let template = '<div class="listLvl1-content">';
     listData.forEach((v) => {
-      const inst = new listLvl1Item(v);
-      this.listLvl1ItemInst.push(inst);
+      const inst = new ListLvl1Item(v);
+      inst.render();
+      this.listLvl1ItemInstList.push(inst);
       $listLvl1Content.appendChild(inst.getDom());
     });
 
@@ -121,6 +124,11 @@ export class listLvl1 {
           this.addDate(e.target.value);
           this.toggleItemLvl1();
           e.target.value = '';
+
+          console.log({
+            data: this.data,
+            listLvl1ItemInst: this.listLvl1ItemInstList,
+          });
           break;
 
         default:
@@ -149,11 +157,11 @@ export class listLvl1 {
         }
         if (target.classList.contains('listLvl1-item')) {
           // item click -> hieghtlight
-          this.listLvl1ItemInst.forEach((listLvl1ItemInst) => {
+          this.listLvl1ItemInstList.forEach((listLvl1ItemInst) => {
             listLvl1ItemInst.getDom().classList.remove('high-light');
           });
           this.getDomHasInst(target).classList.add('high-light');
-          // [...ing]목록 리스트 클릭 -> 할일 list render
+          // 목록 item 클릭 -> 할일 header, list render
           const clickedListLvl1Inst = this.getDomHasInst(target).inst;
           // this.callback(clickedListLvl1Id);
           this.listLvl2Inst.renderList(clickedListLvl1Inst);
@@ -199,22 +207,24 @@ export class listLvl1 {
   }
 }
 
-export class listLvl1Item {
+export class ListLvl1Item {
   constructor({ id, title, count }) {
     this.id = id;
     this.title = title;
     this.count = count;
+  }
 
+  render() {
     this.$listLvl1Item = document.createElement('div');
     this.$listLvl1Item.classList.add('listLvl1-item');
-    this.$listLvl1Item.dataset.index = id;
+    this.$listLvl1Item.dataset.index = this.id;
     const listLvl1ItemTemplate = `
       <div class="listLv1-item-left">
         <div class="icon-container">
           <label class="listLv1-item-icon">🔥</label>
         </div>
         <div class="listLv1-item-title-outer">
-          <label class="listLv1-item-title item-title">${title}</label>
+          <label class="listLv1-item-title item-title">${this.title}</label>
         </div>
       </div>
       <div class="listLv1-item-right">
@@ -222,7 +232,7 @@ export class listLvl1Item {
           <label class="delListLvl1 del-icon"></label>
         </div>
         <div class="listLv1-item-count-outer">
-          <label class="listLv1-item-count">${count}</label>
+          <label class="listLv1-item-count">${this.count}</label>
         </div>
       </div>
     `;

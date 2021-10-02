@@ -85,17 +85,4 @@ export class ListHeader {
     const target = document.querySelector('#add-item-lvl1');
     target.classList.toggle('hidden');
   }
-
-  // addDate(title) {
-  //   let biggestNum = [...this.data].sort((a, b) => b.id - a.id)[0].id;
-  //   const listData = {
-  //     lvl: 1,
-  //     id: ++biggestNum,
-  //     title,
-  //     count: 0,
-  //   };
-  //   this.data.push(listData);
-  //   this.renderListLvl1(this.$listLvl1ContentContainer, this.data);
-  //   return this.data;
-  // }
 }
