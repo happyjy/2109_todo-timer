@@ -11,14 +11,13 @@ import './css/header.css';
 import './css/listLvl1.css';
 import './css/listLvl2.css';
 import './css/reset.css';
-// import addIcon from './assets/addIcon.png';
-import { state, listLvl1Dummy, listLvl2Dummy } from './js/dummyData.js';
+
+import { state, getListLvl1Dummy, getListLvl2Dummy } from './js/dummyData.js';
 import { listLvl1 } from './js/listLvl1.js';
 import { listLvl2 } from './js/listLvl2.js';
-import { ListHeader } from './js/header.js';
 (() => {
-  listLvl1Dummy.map((listLvl1Data) => {
-    listLvl1Data.count = listLvl2Dummy.filter((listLvl2Data) => {
+  getListLvl1Dummy().map((listLvl1Data) => {
+    listLvl1Data.count = getListLvl2Dummy().filter((listLvl2Data) => {
       return listLvl2Data.upperLvlId === listLvl1Data.id;
     }).length;
     return listLvl1Data;
@@ -29,13 +28,15 @@ import { ListHeader } from './js/header.js';
   };
 
   // 할 일 리스트(List level2)
-  console.log({ state });
   const listLvl2Inst = new listLvl2({
     selector: '#listLvl2',
     headerSelector: '#listLvl2-header',
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
-    data: { listLvl1Dummy, listLvl2Dummy },
+    data: {
+      listLvl1Dummy: getListLvl1Dummy(),
+      listLvl2Dummy: getListLvl2Dummy(),
+    },
     changeEvent: {
       renderListLvl1,
     },
@@ -47,7 +48,7 @@ import { ListHeader } from './js/header.js';
     contentSelector: '#listLvl1-content',
     addItemLvl1Selector: '#add-item-lvl1',
     addItemLvl2Selector: '#add-item-lvl2',
-    data: listLvl1Dummy,
+    data: getListLvl1Dummy(),
     listLvl2Inst,
     changeEvent: {
       updateCurrentListLvl1Id,

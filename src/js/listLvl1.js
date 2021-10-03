@@ -170,10 +170,11 @@ export class listLvl1 {
       title,
       count: 0,
     };
+
     this.data.splice(this.data.length, 0, newListLvl1Item);
     this.renderListLvl1(this.data);
 
-    // localStorage.setItem("listLvl1", JSON.stringify(workoutRoutineListDummyData));
+    localStorage.setItem('listLvl1', JSON.stringify(this.data));
 
     return this.data;
   }
@@ -184,6 +185,9 @@ export class listLvl1 {
 
     this.data.splice(idIdx, 1);
     this.renderListLvl1(this.data);
+
+    localStorage.setItem('listLvl1', JSON.stringify(this.data));
+
     return this.data;
   }
 

@@ -225,18 +225,15 @@ export class listLvl2 {
   toggleItemLvl2() {
     if (arguments.length === 1) {
       const { id, isNew } = arguments[0];
-
       if (this.$addItemLvl2Container.dataset.id !== id + '') {
         this.$addItemLvl2Container.classList.remove('hidden');
       } else {
         this.$addItemLvl2Container.classList.toggle('hidden');
       }
-
       this.$addItemLvl2Container.dataset.isNew = isNew + '' || '';
       this.$addItemLvl2Container.dataset.id = id;
     } else if (arguments.length === 0) {
       this.$addItemLvl2Container.classList.toggle('hidden');
-
       this.$addItemLvl2Container.dataset.isNew = '';
       this.$addItemLvl2Container.dataset.id = '';
     }
@@ -261,8 +258,11 @@ export class listLvl2 {
       return v;
     });
 
+    localStorage.setItem('listLvl1', JSON.stringify(modifiedLvl1Data));
+    localStorage.setItem('listLvl2', JSON.stringify(this.filteredListLvl2));
     this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
     this.renderListLvl1(modifiedLvl1Data);
+
     return this.listLvl2Dummy;
   }
 
@@ -288,6 +288,8 @@ export class listLvl2 {
     this.filteredListLvl2 = this.listLvl2Dummy.filter(
       (v) => v.upperLvlId === clickedUpperLvlId,
     );
+
+    localStorage.setItem('listLvl2', JSON.stringify(this.listLvl2Dummy));
     this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
   }
 
@@ -304,6 +306,8 @@ export class listLvl2 {
     this.filteredListLvl2 = this.listLvl2Dummy.filter(
       (v) => v.upperLvlId === clickedUpperLvlId,
     );
+
+    localStorage.setItem('listLvl2', JSON.stringify(this.listLvl2Dummy));
     this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
   }
 
@@ -320,6 +324,8 @@ export class listLvl2 {
     this.filteredListLvl2 = this.listLvl2Dummy.filter(
       (v) => v.upperLvlId === clickedUpperLvlId,
     );
+
+    localStorage.setItem('listLvl2', JSON.stringify(this.listLvl2Dummy));
     this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
   }
 
