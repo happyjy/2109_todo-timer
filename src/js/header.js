@@ -26,6 +26,9 @@ export class ListHeader {
   render({ lvl1Inst, data }) {
     this.$listLvl2HeaderContainer.innerHTML = '';
 
+    const finishCnt = data.filter((v) => {
+      return v.isFinish;
+    }).length;
     const $listHeader = document.createElement('div');
     $listHeader.classList.add('list-header');
     const filteredDataList = data.filter((v) => v.upperLvlId === lvl1Inst.id);
@@ -38,7 +41,7 @@ export class ListHeader {
         </div>
       </div>
       <div class="listLvl2-header-right">
-        <div class="listLvl2-Count">0/${filteredDataList.length}</div>
+        <div class="listLvl2-Count"><label id="finishTodo">${finishCnt}</label>/${filteredDataList.length}</div>
       </div>
     `;
     $listHeader.insertAdjacentHTML('afterbegin', listLvl2HeaderTemplate);

@@ -9,7 +9,6 @@ export class listLvl1 {
     addItemLvl1Selector,
     addItemLvl2Selector,
     data,
-    // dataField,
     listLvl2Inst,
     changeEvent: { updateCurrentListLvl1Id },
   }) {

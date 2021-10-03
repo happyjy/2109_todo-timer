@@ -160,3 +160,7 @@ input {
 .add-btn {}
 
 .cancle-btn {}
+
+.finishTodo{
+  opacity: 0.5;
+}

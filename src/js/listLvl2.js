@@ -3,6 +3,7 @@
 import { getDomHasInst } from './common';
 import { ListHeader } from './header';
 import { ListLvl2Item } from './listLvl2Item';
+import { Timer } from './Timer';
 
 export class listLvl2 {
   constructor({
@@ -25,6 +26,14 @@ export class listLvl2 {
 
     this.addListLvl2Item = addListLvl2Item;
     this.renderListLvl1 = renderListLvl1;
+
+    this.timer = new Timer();
+
+    this.timerStatus = {
+      isPending: false,
+      setPending: this.setPending.bind(this),
+      getPending: this.getPending.bind(this),
+    };
 
     this.$listLvl2HeaderContainer = document.querySelector(this.headerSelector);
     this.$listLvl2ContentContainer = document.querySelector(
@@ -64,29 +73,34 @@ export class listLvl2 {
 
     // lvl2 content
     this.$listLvl2ContentContainer.innerHTML = '';
-    const $listLvl2Content = document.createElement('div');
-    $listLvl2Content.classList.add('listLvl2-content');
+    this.$listLvl2Content = document.createElement('div');
+    this.$listLvl2Content.classList.add('listLvl2-content');
     this.filteredListLvl2.forEach((v) => {
       const listLvl2ItemInst = new ListLvl2Item({
         contentSelector: this.contentSelector,
         lvl1Inst: clickedListLvl1Inst,
         lvl2Data: v,
+        timerStatus: this.timerStatus,
+        timer: this.timer,
         changeEvent: {
           toggleItemLvl2: this.toggleItemLvl2.bind(this),
           delItem: this.delItem.bind(this),
+          clearTodoTime: this.clearTodoTime.bind(this),
+          finishTodo: this.finishTodo.bind(this),
+          pomoStop: this.pomoStop.bind(this),
+          unCheckTodo: this.unCheckTodo.bind(this),
         },
       });
 
       listLvl2ItemInst.render(v);
       this.listLvl2ItemInstList.push(listLvl2ItemInst);
-      $listLvl2Content.appendChild(listLvl2ItemInst.getDom());
+      this.$listLvl2Content.appendChild(listLvl2ItemInst.getDom());
     });
 
-    this.$listLvl2ContentContainer.append($listLvl2Content);
+    this.$listLvl2ContentContainer.append(this.$listLvl2Content);
   }
 
   eventBinding() {
-    // const $addItemLvl2Container = document.querySelector('.add-item-lvl2-container');
     const $listLvl2ItemLeft = document.querySelector('.listLvl2-item-left');
     const $listLv2ItemTitleList = document.querySelectorAll(
       '.listLv2-item-title',
@@ -96,22 +110,6 @@ export class listLvl2 {
     const $pomoTime = document.querySelector('#pomo-time');
     const $pomoSave = document.querySelector('#pomo-save');
     const $pomoCancle = document.querySelector('#pomo-cancle');
-
-    // // title 클릭 -> 내용 수정
-    // $listLv2ItemTitleList.forEach(($listLv2ItemTitle) => {
-    //   $listLv2ItemTitle.addEventListener('click', (e) => {
-    //     const domHasInst = getDomHasInst(e.target);
-    //     if (domHasInst) {
-    //       const clickedData = domHasInst.inst.lvl2Data;
-    //       const title = clickedData.title;
-    //       const time = clickedData.time;
-    //       $pomoTitle.value = title;
-    //       $pomoTime.value = time;
-
-    //       this.toggleItemLvl2({ id: clickedData.id, isNew: false });
-    //     }
-    //   });
-    // });
 
     // 할일 추가 버튼
     this.$addItemLvl2Container.addEventListener('click', function (e) {
@@ -198,6 +196,30 @@ export class listLvl2 {
       $pomoTime.value = '';
       this.toggleItemLvl2();
     });
+
+    const $headerPomoStart = document.querySelector('.header-pomo-start');
+    const $headerPomoPause = document.querySelector('.header-pomo-pause');
+    const $headerPomoStop = document.querySelector('.header-pomo-stop');
+    const $headerPomoTimeCount = document.querySelector(
+      '.header-pomo-time-count',
+    );
+
+    $headerPomoStart.addEventListener('click', (e) => {
+      $headerPomoStart.classList.add('hidden');
+      $headerPomoPause.classList.remove('hidden');
+      this.timer.setPending(false);
+    });
+    $headerPomoPause.addEventListener('click', (e) => {
+      $headerPomoStart.classList.remove('hidden');
+      $headerPomoPause.classList.add('hidden');
+      this.timer.setPending(true);
+    });
+    $headerPomoStop.addEventListener('click', () => {
+      this.timer.stopCountDownTimer();
+      this.timer.setIsRunning(false);
+      this.pomoStop();
+      $headerPomoTimeCount.innerHTML = '';
+    });
   }
 
   toggleItemLvl2() {
@@ -222,21 +244,21 @@ export class listLvl2 {
 
   delItem(id) {
     console.log('### delItem');
-    const delUpperLvlId = this.filteredListLvl2[0].upperLvlId;
+    // const clickedUpperLvlId = this.filteredListLvl2[0].upperLvlId;
+    const clickedUpperLvlId = this.clickedListLvl1Inst.id;
 
     const idArr = this.listLvl2Dummy.map((v) => v.id);
     const idIdx = idArr.indexOf(id);
     this.listLvl2Dummy.splice(idIdx, 1);
 
     // const result = this.listLvl2Dummy.filter((v) => v.id !== id);
-    // console.log(this.listLvl2Dummy);
     this.filteredListLvl2 = this.listLvl2Dummy.filter(
-      (v) => v.upperLvlId === delUpperLvlId,
+      (v) => v.upperLvlId === clickedUpperLvlId,
     );
     // this.filteredListLvl2 = this.filteredListLvl2.filter((v) => v.id !== id);
 
     const modifiedLvl1Data = this.listLvl1Dummy.map((v) => {
-      if (v.id === delUpperLvlId) {
+      if (v.id === clickedUpperLvlId) {
         v.count = this.filteredListLvl2.length;
       }
       return v;
@@ -245,5 +267,80 @@ export class listLvl2 {
     this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
     this.renderListLvl1(modifiedLvl1Data);
     return this.listLvl2Dummy;
+  }
+
+  clearTodoTime() {
+    // this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
+    [...this.$listLvl2Content.children].forEach((dom) => {
+      dom.querySelector('.pomo-time-count').innerHTML = '';
+      dom.querySelector('.pomo-start').classList.remove('hidden');
+      dom.querySelector('.pomo-stop').classList.add('hidden');
+    });
+  }
+
+  finishTodo(id) {
+    console.log('### finishTodo: ', id);
+    const clickedUpperLvlId = this.clickedListLvl1Inst.id;
+
+    this.listLvl2Dummy = this.listLvl2Dummy.map((v) => {
+      if (v.id === id) {
+        v.isFinish = true;
+        v.pomoCnt += 1;
+      }
+      return v;
+    });
+    this.filteredListLvl2 = this.listLvl2Dummy.filter(
+      (v) => v.upperLvlId === clickedUpperLvlId,
+    );
+
+    // const finishCnt = this.listLvl2Dummy.filter((v) => {
+    //   return v.isFinish;
+    // }).length;
+
+    // document.querySelector('#finishTodo').innerHTML = finishCnt;
+    debugger;
+    this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
+  }
+
+  pomoStop(id) {
+    console.log('### pomoStop: ', id);
+    const clickedUpperLvlId = this.clickedListLvl1Inst.id;
+
+    this.listLvl2Dummy = this.listLvl2Dummy.map((v) => {
+      if (v.id === id) {
+        v.isFinish = false;
+      }
+      return v;
+    });
+    this.filteredListLvl2 = this.listLvl2Dummy.filter(
+      (v) => v.upperLvlId === clickedUpperLvlId,
+    );
+    this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
+  }
+
+  unCheckTodo(id) {
+    console.log('### unCheckTodo: ', id);
+    const clickedUpperLvlId = this.clickedListLvl1Inst.id;
+
+    this.listLvl2Dummy = this.listLvl2Dummy.map((v) => {
+      if (v.id === id) {
+        v.isFinish = false;
+        // v.pomoCnt += 1;
+      }
+      return v;
+    });
+    this.filteredListLvl2 = this.listLvl2Dummy.filter(
+      (v) => v.upperLvlId === clickedUpperLvlId,
+    );
+    this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
+  }
+
+  setPending(isPending) {
+    // this.timerStatus = { isPending: false };
+    this.timerStatus.isPending = isPending;
+  }
+
+  getPending() {
+    return this.timerStatus.isPending;
   }
 }

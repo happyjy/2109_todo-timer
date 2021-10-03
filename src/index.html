@@ -10,7 +10,36 @@
     <!-- <div id="root"></div> -->
     <div class="container">
       <div class="header">
-        <label>Pmodoro Todolist</label>
+        <label class="header-default-title">Pmodoro Todolist</label>
+
+        <div class="header-custom-title hidden">
+          <div class="header-left">
+            <input
+              class="header-custom-checkbox"
+              disabled
+              type="checkbox"
+            /><label class="header-title"></label>
+          </div>
+          <div class="header-right">
+            <div class="header-time-count-outer">
+              <label class="header-pomo-time-count"></label>
+            </div>
+            <div class="header-pomo-status">
+              <div class="header-start">
+                <label class="header-pomo-start cursor-pointer hidden"
+                  >▶️</label
+                >
+              </div>
+              <div class="header-pause">
+                <label class="header-pomo-pause cursor-pointer">⏸</label>
+              </div>
+              <div class="header-stop">
+                <label class="header-pomo-stop cursor-pointer">⏹</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- <label>
           현재 활성화된 lvl1, 2 component getValue 해서 가공해서 붙이기
           check/ listLvl2-title/ listLvl2-item-title || listLv2-item-time-count/
