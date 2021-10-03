@@ -132,11 +132,7 @@ export class listLvl2 {
         isFinish: false,
       };
 
-      this.listLvl2Dummy.splice(
-        this.listLvl2Dummy.length - 1,
-        0,
-        newListLvl2Item,
-      );
+      this.listLvl2Dummy.splice(this.listLvl2Dummy.length, 0, newListLvl2Item);
 
       $pomoTitle.value = '';
       $pomoTime.value = '';

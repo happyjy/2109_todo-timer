@@ -23,7 +23,7 @@ import { ListHeader } from './js/header.js';
     return listLvl1Data;
   });
 
-  // const abc = 0;
+  // const abc = 0;1
   // let state = {
   //   listLvl1Dummy,
   //   listLvl2Dummy,
@@ -49,25 +49,26 @@ import { ListHeader } from './js/header.js';
 
   // const delListLvl2Item = (id) => {
   // };
-  const addListLvl2Item = ({ id, pomoTitle, pomoTime }) => {
-    const newListLvl2Item = {
-      lvl: 2,
-      id,
-      upperLvlId: state.currentListLvl1Id,
-      title: pomoTitle,
-      time: pomoTime,
-      pomoCnt: 0,
-      isFinish: false,
-    };
 
-    listLvl2Dummy.push(newListLvl2Item);
-    console.log({ listLvl2Dummy, curr: state.currentListLvl1Id });
+  // const addListLvl2Item = ({ id, pomoTitle, pomoTime }) => {
+  //   const newListLvl2Item = {
+  //     lvl: 2,
+  //     id,
+  //     upperLvlId: state.currentListLvl1Id,
+  //     title: pomoTitle,
+  //     time: pomoTime,
+  //     pomoCnt: 0,
+  //     isFinish: false,
+  //   };
 
-    return newListLvl2Item;
-    // return listLvl2Dummy.filter(
-    //   (v) => v.upperLvlId === state.currentListLvl1Id,
-    // );
-  };
+  //   listLvl2Dummy.push(newListLvl2Item);
+  //   console.log({ listLvl2Dummy, curr: state.currentListLvl1Id });
+
+  //   return newListLvl2Item;
+  //   // return listLvl2Dummy.filter(
+  //   //   (v) => v.upperLvlId === state.currentListLvl1Id,
+  //   // );
+  // };
 
   const updateCurrentListLvl1Id = (id) => {
     state.currentListLvl1Id = id;
@@ -91,7 +92,7 @@ import { ListHeader } from './js/header.js';
       isFinishField: 'isFinish',
     },
     changeEvent: {
-      addListLvl2Item,
+      // addListLvl2Item,
       renderListLvl1,
     },
   });

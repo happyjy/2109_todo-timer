@@ -89,7 +89,7 @@ export class listLvl1 {
 
   eventBinding() {
     /*
-      [x]목록 추가 클릭
+      [x]목록 추가 버튼 클릭
       [x]목록 추가 취소 (esc)
       [x]목록 추가 (enter)
       [x]목록 리스트 삭제
@@ -98,7 +98,7 @@ export class listLvl1 {
         - [x]hight-light
      */
     const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
-    // 목록 추가 클릭
+    // 목록 추가 버튼 클릭
     document.querySelector('#addListLvl1').addEventListener('click', () => {
       // 목록 추가 input dom
       this.$displayAddListLvl1 = this.toggleItemLvl1();
@@ -178,13 +178,14 @@ export class listLvl1 {
 
   addData(title) {
     let biggestNum = [...this.data].sort((a, b) => b.id - a.id)[0].id;
-    const listData = {
+    const newListLvl1Item = {
       lvl: 1,
       id: ++biggestNum,
       title,
       count: 0,
     };
-    this.data.push(listData);
+    // this.data.push(listData);
+    this.data.splice(this.data.length, 0, newListLvl1Item);
     this.renderListLvl1(this.data);
     return this.data;
   }
