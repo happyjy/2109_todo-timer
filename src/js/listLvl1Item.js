@@ -32,19 +32,13 @@ export class ListLvl1Item {
 
     this.eventBinding();
   }
-  eventBinding() {
-    // this.$listLvl1Item
-    //   .querySelector('.lvl1-item-del')
-    //   .addEventListener('click', (e) => {});
-    // this.$listLvl1Item.addEventListener('click', (e) => {});
-  }
+  eventBinding() {}
 
   heighLight(id) {}
   getDom() {
     return this.$listLvl1Item;
   }
   getHtml() {
-    // return this.template;
     return this.$listLvl1Item.outerHTML;
   }
   getIndex() {

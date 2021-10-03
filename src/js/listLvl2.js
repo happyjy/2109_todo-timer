@@ -244,18 +244,15 @@ export class listLvl2 {
 
   delItem(id) {
     console.log('### delItem');
-    // const clickedUpperLvlId = this.filteredListLvl2[0].upperLvlId;
     const clickedUpperLvlId = this.clickedListLvl1Inst.id;
 
     const idArr = this.listLvl2Dummy.map((v) => v.id);
     const idIdx = idArr.indexOf(id);
     this.listLvl2Dummy.splice(idIdx, 1);
 
-    // const result = this.listLvl2Dummy.filter((v) => v.id !== id);
     this.filteredListLvl2 = this.listLvl2Dummy.filter(
       (v) => v.upperLvlId === clickedUpperLvlId,
     );
-    // this.filteredListLvl2 = this.filteredListLvl2.filter((v) => v.id !== id);
 
     const modifiedLvl1Data = this.listLvl1Dummy.map((v) => {
       if (v.id === clickedUpperLvlId) {
@@ -270,7 +267,6 @@ export class listLvl2 {
   }
 
   clearTodoTime() {
-    // this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
     [...this.$listLvl2Content.children].forEach((dom) => {
       dom.querySelector('.pomo-time-count').innerHTML = '';
       dom.querySelector('.pomo-start').classList.remove('hidden');
@@ -292,13 +288,6 @@ export class listLvl2 {
     this.filteredListLvl2 = this.listLvl2Dummy.filter(
       (v) => v.upperLvlId === clickedUpperLvlId,
     );
-
-    // const finishCnt = this.listLvl2Dummy.filter((v) => {
-    //   return v.isFinish;
-    // }).length;
-
-    // document.querySelector('#finishTodo').innerHTML = finishCnt;
-    debugger;
     this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
   }
 
@@ -325,7 +314,6 @@ export class listLvl2 {
     this.listLvl2Dummy = this.listLvl2Dummy.map((v) => {
       if (v.id === id) {
         v.isFinish = false;
-        // v.pomoCnt += 1;
       }
       return v;
     });
@@ -336,7 +324,6 @@ export class listLvl2 {
   }
 
   setPending(isPending) {
-    // this.timerStatus = { isPending: false };
     this.timerStatus.isPending = isPending;
   }
 

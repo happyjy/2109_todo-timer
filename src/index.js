@@ -17,60 +17,12 @@ import { listLvl1 } from './js/listLvl1.js';
 import { listLvl2 } from './js/listLvl2.js';
 import { ListHeader } from './js/header.js';
 (() => {
-  // data
   listLvl1Dummy.map((listLvl1Data) => {
     listLvl1Data.count = listLvl2Dummy.filter((listLvl2Data) => {
       return listLvl2Data.upperLvlId === listLvl1Data.id;
     }).length;
     return listLvl1Data;
   });
-
-  // const abc = 0;1
-  // let state = {
-  //   listLvl1Dummy,
-  //   listLvl2Dummy,
-  //   set currentListLvl1Id(id) {
-  //     console.log('### setter: ', id);
-  //     this.log.push();
-  //     console.log('### setter > log: ', this.log);
-  //   },
-  //   log: [],
-
-  //   currentState: function () {
-  //     debugger;
-  //     console.log(this);
-  //   },
-  //   changeEvent: {
-  //     updateCurrentListLvl1Id: function (id) {
-  //       debugger;
-  //       console.log(this);
-  //       this.currentListLvl1Id = id;
-  //     },
-  //   },
-  // };
-
-  // const delListLvl2Item = (id) => {
-  // };
-
-  // const addListLvl2Item = ({ id, pomoTitle, pomoTime }) => {
-  //   const newListLvl2Item = {
-  //     lvl: 2,
-  //     id,
-  //     upperLvlId: state.currentListLvl1Id,
-  //     title: pomoTitle,
-  //     time: pomoTime,
-  //     pomoCnt: 0,
-  //     isFinish: false,
-  //   };
-
-  //   listLvl2Dummy.push(newListLvl2Item);
-  //   console.log({ listLvl2Dummy, curr: state.currentListLvl1Id });
-
-  //   return newListLvl2Item;
-  //   // return listLvl2Dummy.filter(
-  //   //   (v) => v.upperLvlId === state.currentListLvl1Id,
-  //   // );
-  // };
 
   const updateCurrentListLvl1Id = (id) => {
     state.currentListLvl1Id = id;
@@ -84,17 +36,7 @@ import { ListHeader } from './js/header.js';
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
     data: { listLvl1Dummy, listLvl2Dummy },
-    // dataField: {
-    //   lvlField: 'lvl',
-    //   idField: 'id',
-    //   upperLvlIdField: 'upperLvlId',
-    //   titleField: 'title',
-    //   timeField: 'time',
-    //   pomoCntField: 'pomoCnt',
-    //   isFinishField: 'isFinish',
-    // },
     changeEvent: {
-      // addListLvl2Item,
       renderListLvl1,
     },
   });
@@ -106,18 +48,9 @@ import { ListHeader } from './js/header.js';
     addItemLvl1Selector: '#add-item-lvl1',
     addItemLvl2Selector: '#add-item-lvl2',
     data: listLvl1Dummy,
-    // dataField: {
-    //   lvlField: 'lvl',
-    //   idField: 'id',
-    //   titleField: 'title',
-    //   countField: 'count',
-    // },
     listLvl2Inst,
     changeEvent: {
       updateCurrentListLvl1Id,
-      // addData: (title) => {
-      //   listLvl1HeaderInst.addData(title);
-      // },
     },
   });
 

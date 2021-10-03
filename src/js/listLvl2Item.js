@@ -183,7 +183,6 @@ export class ListLvl2Item {
           });
           this.timer.setIsRunning(true);
           this.timer.setPending(false);
-          // this.timerStatus.setPending(true);
           $pomoTimeCount.innerHTML = `${time}:00`;
           this.timer.setMinute(time);
           this.timer.startCountDownTimer(time);

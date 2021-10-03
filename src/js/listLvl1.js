@@ -22,18 +22,12 @@ export class listLvl1 {
     //  * listLvl1ItemInst, data
     this.data = data;
     this.listLvl1ItemInstList = [];
-    // this.dataField = dataField;
-    // lvlField, idField, titleField, countField
-
     this.updateCurrentListLvl1Id = updateCurrentListLvl1Id;
 
     this.$listLvl1HeaderContainer = document.querySelector(this.headerSelector);
     this.$listLvl1ContentContainer = document.querySelector(
       this.contentSelector,
     );
-    // this.$addItemLvl2Container = document.querySelector(
-    //   this.addItemLvl2Selector,
-    // );
 
     const { listLvl1Header, listLvl1Content } = this.initialize(
       [this.$listLvl1HeaderContainer, this.$listLvl1ContentContainer],
@@ -88,13 +82,13 @@ export class listLvl1 {
 
   eventBinding() {
     /*
-      [x]목록 추가 버튼 클릭
-      [x]목록 추가 취소 (esc)
-      [x]목록 추가 (enter)
-      [x]목록 리스트 삭제
-      [x]목록 리스트 클릭
-        - [x]할일 list render
-        - [x]hight-light
+      * 목록 추가 버튼 클릭
+      * 목록 추가 취소 (esc)
+      * 목록 추가 (enter)
+      * 목록 리스트 삭제
+      * 목록 리스트 클릭
+        - * 할일 list render
+        - * hight-light
      */
     const $listLvl1ItemInput = document.querySelector('#listLvl1-item-input');
     // 목록 추가 버튼 클릭
@@ -108,12 +102,10 @@ export class listLvl1 {
     $listLvl1ItemInput.addEventListener('keyup', (e) => {
       switch (e.key) {
         case 'Escape':
-          //keyCode 27
           e.target.value = '';
           this.toggleItemLvl1();
           break;
         case 'Enter':
-          //keyCode 13
           this.addData(e.target.value);
           this.toggleItemLvl1();
           e.target.value = '';
@@ -160,11 +152,6 @@ export class listLvl1 {
           // 클릭 한 list lvl1 id
           this.listLvl2Inst.ListHeaderInst.close();
           this.updateCurrentListLvl1Id(clickedListLvl1Inst.id);
-
-          // const addItemLvl2Container = document.querySelector(
-          //   this.addItemLvl2Selector,
-          // );
-          // addItemLvl2Container && addItemLvl2Container.classList.add('hidden');
           return;
         }
       });
@@ -183,9 +170,10 @@ export class listLvl1 {
       title,
       count: 0,
     };
-    // this.data.push(listData);
     this.data.splice(this.data.length, 0, newListLvl1Item);
     this.renderListLvl1(this.data);
+
+    // localStorage.setItem("listLvl1", JSON.stringify(workoutRoutineListDummyData));
 
     return this.data;
   }
