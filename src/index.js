@@ -12,12 +12,32 @@ import './css/listLvl1.css';
 import './css/listLvl2.css';
 import './css/reset.css';
 
-import { state, getListLvl1Dummy, getListLvl2Dummy } from './js/dummyData.js';
+import {
+  state,
+  listLvl1Dummy,
+  listLvl2Dummy,
+  // getListLvl1Dummy,
+  // getListLvl2Dummy,
+} from './js/dummyData.js';
 import { listLvl1 } from './js/listLvl1.js';
 import { listLvl2 } from './js/listLvl2.js';
 (() => {
-  getListLvl1Dummy().map((listLvl1Data) => {
-    listLvl1Data.count = getListLvl2Dummy().filter((listLvl2Data) => {
+  const localStorageListLvl1 =
+    JSON.parse(localStorage.getItem('listLvl1')) || [];
+  const localStorageListLvl2 =
+    JSON.parse(localStorage.getItem('listLvl2')) || [];
+
+  let listLvl1DummyCopy = [...listLvl1Dummy];
+  if (localStorageListLvl1.length != 0 && listLvl1Dummy) {
+    listLvl1DummyCopy = localStorageListLvl1;
+  }
+  let listLvl2DummyCopy = [...listLvl2Dummy];
+  if (localStorageListLvl2.length != 0 && listLvl2Dummy) {
+    listLvl2DummyCopy = localStorageListLvl2;
+  }
+
+  listLvl1DummyCopy.map((listLvl1Data) => {
+    listLvl1Data.count = listLvl2DummyCopy.filter((listLvl2Data) => {
       return listLvl2Data.upperLvlId === listLvl1Data.id;
     }).length;
     return listLvl1Data;
@@ -34,8 +54,8 @@ import { listLvl2 } from './js/listLvl2.js';
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
     data: {
-      listLvl1Dummy: getListLvl1Dummy(),
-      listLvl2Dummy: getListLvl2Dummy(),
+      listLvl1Dummy: listLvl1DummyCopy,
+      listLvl2Dummy: listLvl2DummyCopy,
     },
     changeEvent: {
       renderListLvl1,
@@ -48,7 +68,7 @@ import { listLvl2 } from './js/listLvl2.js';
     contentSelector: '#listLvl1-content',
     addItemLvl1Selector: '#add-item-lvl1',
     addItemLvl2Selector: '#add-item-lvl2',
-    data: getListLvl1Dummy(),
+    data: listLvl1DummyCopy,
     listLvl2Inst,
     changeEvent: {
       updateCurrentListLvl1Id,

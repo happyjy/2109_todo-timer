@@ -134,7 +134,6 @@ export class listLvl2 {
         alert('빠짐 없이 입력해주세요.');
         return;
       }
-
       // 신규, 수정 구분
       if (this.$addItemLvl2Container.dataset.isNew === 'true') {
         // 할 일 추가
@@ -173,24 +172,32 @@ export class listLvl2 {
           }
           return v;
         });
+
+        localStorage.setItem('listLvl1', JSON.stringify(modifiedLvl1Data));
+        localStorage.setItem('listLvl2', JSON.stringify(this.listLvl2Dummy));
         this.renderListLvl1(modifiedLvl1Data);
+        this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
       } else {
         const id = parseInt(this.$addItemLvl2Container.dataset.id);
-        this.filteredListLvl2 = this.filteredListLvl2.map((v) => {
+        this.listLvl2Dummy = this.listLvl2Dummy.map((v) => {
           if (v.id === id) {
             v.title = pomoTitleValue;
             v.time = pomoTimeValue;
           }
           return v;
         });
-        // this.filteredListLvl2 =
-      }
+        this.filteredListLvl2 = this.listLvl2Dummy.filter(
+          (v) => v.upperLvlId === this.clickedListLvl1Inst.id,
+        );
 
-      // update
-      // 할 일 update
-      this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
-      this.toggleItemLvl2();
+        // update
+        // 할 일 update
+        localStorage.setItem('listLvl2', JSON.stringify(this.listLvl2Dummy));
+        this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
+        this.toggleItemLvl2();
+      }
     });
+
     $pomoCancle.addEventListener('click', (e) => {
       $pomoTitle.value = '';
       $pomoTime.value = '';
