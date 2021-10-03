@@ -9,7 +9,7 @@ export class listLvl1 {
     addItemLvl1Selector,
     addItemLvl2Selector,
     data,
-    dataField,
+    // dataField,
     listLvl2Inst,
     changeEvent: { updateCurrentListLvl1Id },
   }) {
@@ -21,9 +21,9 @@ export class listLvl1 {
 
     // # upper layer에서 data를 관리 할 필요 있음.
     //  * listLvl1ItemInst, data
-    this.listLvl1ItemInstList = [];
     this.data = data;
-    this.dataField = dataField;
+    this.listLvl1ItemInstList = [];
+    // this.dataField = dataField;
     // lvlField, idField, titleField, countField
 
     this.updateCurrentListLvl1Id = updateCurrentListLvl1Id;
@@ -97,16 +97,16 @@ export class listLvl1 {
         - [x]할일 list render
         - [x]hight-light
      */
-    const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
+    const $listLvl1ItemInput = document.querySelector('#listLvl1-item-input');
     // 목록 추가 버튼 클릭
     document.querySelector('#addListLvl1').addEventListener('click', () => {
       // 목록 추가 input dom
       this.$displayAddListLvl1 = this.toggleItemLvl1();
-      $listLv1ItemInput.focus();
+      $listLvl1ItemInput.focus();
     });
     // 목록 추가 취소 (esc)
     // 목록 추가 (enter)
-    $listLv1ItemInput.addEventListener('keyup', (e) => {
+    $listLvl1ItemInput.addEventListener('keyup', (e) => {
       switch (e.key) {
         case 'Escape':
           //keyCode 27
@@ -194,10 +194,9 @@ export class listLvl1 {
   removeData(id) {
     const idArr = this.data.map((v) => v.id);
     const idIdx = idArr.indexOf(id);
-    this.listLvl2Dummy.splice(idIdx, 1);
 
-    // this.data = this.data.filter((v) => v.id !== id);
-    // this.renderListLvl1(this.data);
+    this.data.splice(idIdx, 1);
+    this.renderListLvl1(this.data);
     return this.data;
   }
 

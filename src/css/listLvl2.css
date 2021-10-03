@@ -66,7 +66,7 @@
 }
 
 .listLvl2-item-left, .listLvl2-item-right {
-  /* .listLv1-item-left, .listLv1-item-right 중복 */
+  /* .listLvl1-item-left, .listLvl1-item-right 중복 */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -85,7 +85,7 @@
 
 .listLvl2-item-pomo-icon icon-container {}
 
-.listLv1-item-icon {}
+.listLvl1-item-icon {}
 
 .listLv2-item-pomo-count-outer {}
 

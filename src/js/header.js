@@ -15,7 +15,7 @@ export class ListHeader {
 
     this.$addItemLvl2Container = document.querySelector(addItemLvl2Selector);
 
-    this.$listLv1ItemInput = document.querySelector('#listLv1-item-input');
+    this.$listLvl1ItemInput = document.querySelector('#listLvl1-item-input');
     this.$pomoTitle = document.querySelector('#pomo-title');
   }
 
@@ -52,7 +52,10 @@ export class ListHeader {
     this.$addItem = document.querySelector(`#${this.addItemId}`);
     this.$addItem.addEventListener('click', () => {
       // 목록 추가 input dom
-      this.$displayAddListLvl1 = this.toggleItemLvl2();
+      this.$displayAddListLvl1 = this.toggleItemLvl2({
+        id: 'new',
+        isNew: true,
+      });
       // this.$pomoTitle.focus();
       this.$pomoTitle.value = '새로운 할 일 입력';
     });
@@ -61,12 +64,12 @@ export class ListHeader {
     // document.querySelector('#addListLvl1').addEventListener('click', () => {
     //   // 목록 추가 input dom
     //   this.$displayAddListLvl1 = this.toggleItemLvl1();
-    //   this.$listLv1ItemInput.focus();
+    //   this.$listLvl1ItemInput.focus();
     // });
 
     // 목록 추가 취소 (esc)
     // 목록 추가 (enter)
-    // this.$listLv1ItemInput.addEventListener('keyup', (e) => {
+    // this.$listLvl1ItemInput.addEventListener('keyup', (e) => {
     //   switch (e.key) {
     //     case 'Escape':
     //       //keyCode 27
@@ -89,7 +92,7 @@ export class ListHeader {
   close() {
     // this.$addItem = document.querySelector(`#${this.addItemId}`);
     this.$addItemLvl2Container.classList.add('hidden');
-    this.$listLv1ItemInput.value = '';
+    this.$listLvl1ItemInput.value = '';
     this.$pomoTitle.value = '';
   }
 

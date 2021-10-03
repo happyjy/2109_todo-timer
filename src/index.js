@@ -1,4 +1,5 @@
 import './js/init.js';
+import './js/common.js';
 import './js/header.js';
 import './js/listLvl1Item';
 import './js/listLvl2Item';
@@ -83,15 +84,15 @@ import { ListHeader } from './js/header.js';
     contentSelector: '#listLvl2-content',
     addItemLvl2Selector: '#add-item-lvl2',
     data: { listLvl1Dummy, listLvl2Dummy },
-    dataField: {
-      lvlField: 'lvl',
-      idField: 'id',
-      upperLvlIdField: 'upperLvlId',
-      titleField: 'title',
-      timeField: 'time',
-      pomoCntField: 'pomoCnt',
-      isFinishField: 'isFinish',
-    },
+    // dataField: {
+    //   lvlField: 'lvl',
+    //   idField: 'id',
+    //   upperLvlIdField: 'upperLvlId',
+    //   titleField: 'title',
+    //   timeField: 'time',
+    //   pomoCntField: 'pomoCnt',
+    //   isFinishField: 'isFinish',
+    // },
     changeEvent: {
       // addListLvl2Item,
       renderListLvl1,
@@ -105,12 +106,12 @@ import { ListHeader } from './js/header.js';
     addItemLvl1Selector: '#add-item-lvl1',
     addItemLvl2Selector: '#add-item-lvl2',
     data: listLvl1Dummy,
-    dataField: {
-      lvlField: 'lvl',
-      idField: 'id',
-      titleField: 'title',
-      countField: 'count',
-    },
+    // dataField: {
+    //   lvlField: 'lvl',
+    //   idField: 'id',
+    //   titleField: 'title',
+    //   countField: 'count',
+    // },
     listLvl2Inst,
     changeEvent: {
       updateCurrentListLvl1Id,

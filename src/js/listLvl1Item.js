@@ -7,29 +7,38 @@ export class ListLvl1Item {
 
   render() {
     this.$listLvl1Item = document.createElement('div');
-    this.$listLvl1Item.classList.add('listLvl1-item');
+    this.$listLvl1Item.classList.add(...['listLvl1-item', 'cursor-pointer']);
     this.$listLvl1Item.dataset.index = this.id;
     const listLvl1ItemTemplate = `
-      <div class="listLv1-item-left">
+      <div class="listLvl1-item-left">
         <div class="icon-container">
-          <label class="listLv1-item-icon">🔥</label>
+          <label class="listLvl1-item-icon">🔥</label>
         </div>
-        <div class="listLv1-item-title-outer">
-          <label class="listLv1-item-title item-title">${this.title}</label>
+        <div class="listLvl1-item-title-outer">
+          <label class="listLvl1-item-title item-title">${this.title}</label>
         </div>
       </div>
-      <div class="listLv1-item-right">
-        <div class="icon-container">
+      <div class="listLvl1-item-right">
+        <div class="lvl1-item-del icon-container">
           <label class="delListLvl1 del-icon"></label>
         </div>
-        <div class="listLv1-item-count-outer">
-          <label class="listLv1-item-count">${this.count}</label>
+        <div class="listLvl1-item-count-outer">
+          <label class="listLvl1-item-count">${this.count}</label>
         </div>
       </div>
     `;
     this.$listLvl1Item.insertAdjacentHTML('afterbegin', listLvl1ItemTemplate);
     this.$listLvl1Item.inst = this;
+
+    this.eventBinding();
   }
+  eventBinding() {
+    // this.$listLvl1Item
+    //   .querySelector('.lvl1-item-del')
+    //   .addEventListener('click', (e) => {});
+    // this.$listLvl1Item.addEventListener('click', (e) => {});
+  }
+
   heighLight(id) {}
   getDom() {
     return this.$listLvl1Item;

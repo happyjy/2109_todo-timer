@@ -1,14 +1,19 @@
 import { getDomHasInst } from './common';
 
 export class ListLvl2Item {
-  constructor({ contentSelector, lvl2Data, changeEvent: { delItem } }) {
+  constructor({
+    contentSelector,
+    lvl2Data,
+    changeEvent: { delItem, toggleItemLvl2 },
+  }) {
     this.contentSelector = contentSelector;
     this.delItem = delItem;
+    this.toggleItemLvl2 = toggleItemLvl2;
     this.lvl2Data = lvl2Data;
 
-    this.pomoCountSelector = '#pomo-count';
-    this.pomoStatusSelector = '#pomo-status';
-    this.pomoDelSelector = '#pomo-del';
+    this.pomoCountSelector = '.pomo-count';
+    this.pomoStatusSelector = '.pomo-status';
+    this.pomoDelSelector = '.pomo-del';
 
     this.$listLvl2ContentContainer = document.querySelector(
       this.contentSelector,
@@ -32,7 +37,7 @@ export class ListLvl2Item {
           <input type="checkbox" />
         </div>
         <div class="listLvl2-item-title-outer">
-          <label class="listLv2-item-title">
+          <label class="listLv2-item-title cursor-pointer">
             ${title}
           </label>
         </div>
@@ -48,9 +53,9 @@ export class ListLvl2Item {
       </div>
       <div class="listLvl2-item-right">
         <div class="listLvl2-item-time-count-outer">
-          <label id="pomo-count" class="listLv2-item-time-count"></label>
+          <label class="pomo-count listLv2-item-time-count"></label>
         </div>
-        <div id="pomo-status" class="listLvl2-item-status">
+        <div class="pomo-status listLvl2-item-status">
           <div class="listLvl2-item-start hidden">
             <label class="">▶️</label>
           </div>
@@ -61,7 +66,7 @@ export class ListLvl2Item {
             <label class="">⏹</label>
           </div>
         </div>
-        <div id="pomo-del" class="listLvl2-item-status-del icon-container">
+        <div class="pomo-del listLvl2-item-status-del icon-container">
           <label class="del-icon"></label>
         </div>
       </div>
@@ -88,6 +93,28 @@ export class ListLvl2Item {
     // this.$listLvl2Item
     //   .querySelector(this.pomoStatusSelector)
     //   .addEventListener('click', () => {});
+    const $pomoTitle = document.querySelector('#pomo-title');
+    const $pomoTime = document.querySelector('#pomo-time');
+
+    const $listLv2ItemTitleList = this.$listLvl2Item.querySelectorAll(
+      '.listLv2-item-title',
+    );
+    // title 클릭 -> 내용 수정
+    $listLv2ItemTitleList.forEach(($listLv2ItemTitle) => {
+      $listLv2ItemTitle.addEventListener('click', (e) => {
+        const domHasInst = getDomHasInst(e.target);
+        if (domHasInst) {
+          const clickedData = domHasInst.inst.lvl2Data;
+          const title = clickedData.title;
+          const time = clickedData.time;
+          $pomoTitle.value = title;
+          $pomoTime.value = time;
+
+          this.toggleItemLvl2({ id: clickedData.id, isNew: false });
+        }
+      });
+    });
+
     this.$listLvl2Item
       .querySelector(this.pomoDelSelector)
       .addEventListener('click', (e) => {
