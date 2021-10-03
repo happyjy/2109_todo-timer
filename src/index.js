@@ -1,5 +1,6 @@
 import './js/init.js';
 import './js/header.js';
+import './js/listLvl1Item';
 import './js/listLvl2Item';
 import './js/listLvl1.js';
 import './js/listLvl2.js';
