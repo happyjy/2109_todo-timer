@@ -34,8 +34,9 @@ export class listLvl2 {
 
     this.eventBinding();
 
-    this.ListHeader = new ListHeader({
+    this.ListHeaderInst = new ListHeader({
       headerSelector,
+      addItemLvl2Selector: this.addItemLvl2Selector,
       changeEvent: {
         toggleItemLvl2: () => this.toggleItemLvl2(),
       },
@@ -56,7 +57,7 @@ export class listLvl2 {
     this.clickedListLvl1Inst = clickedListLvl1Inst;
 
     // lvl2 header
-    this.ListHeader.render({
+    this.ListHeaderInst.render({
       lvl1Inst: clickedListLvl1Inst,
       data: this.filteredListLvl2,
     });
@@ -89,6 +90,9 @@ export class listLvl2 {
     const $pomoSave = document.querySelector('#pomo-save');
     const $pomoCancle = document.querySelector('#pomo-cancle');
 
+    $pomoTitle.addEventListener('click', (e) => {
+      e.target.value = '';
+    });
     $pomoTime.addEventListener('keyup', ({ target }) => {
       if (target.value > 60) {
         target.value = '';
@@ -109,25 +113,50 @@ export class listLvl2 {
         this.listLvl2Dummy.length === 0
           ? 0
           : [...this.listLvl2Dummy].sort((a, b) => b.id - a.id)[0].id;
-      this.filteredListLvl2 = this.addListLvl2Item({
+      // const newItemLvl2 = this.addListLvl2Item({
+      //   id: ++biggestNum,
+      //   pomoTitle: pomoTitleValue,
+      //   pomoTime: pomoTimeValue,
+      // });
+
+      // this.listLvl2Dummy = [...this.listLvl2Dummy, newItemLvl2];
+
+      // 할 일 추가
+      const newListLvl2Item = {
+        lvl: 2,
         id: ++biggestNum,
-        pomoTitle: $pomoTitle.value,
-        pomoTime: $pomoTime.value,
-      });
+        upperLvlId: this.clickedListLvl1Inst.id,
+        title: pomoTitleValue,
+        time: pomoTimeValue,
+        pomoCnt: 0,
+        isFinish: false,
+      };
+
+      this.listLvl2Dummy.splice(
+        this.listLvl2Dummy.length - 1,
+        0,
+        newListLvl2Item,
+      );
 
       $pomoTitle.value = '';
       $pomoTime.value = '';
 
+      this.filteredListLvl2 = this.listLvl2Dummy.filter(
+        (v) => v.upperLvlId === this.clickedListLvl1Inst.id,
+      );
+
+      this.toggleItemLvl2();
+
+      // 할 일 update
+      this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
+
+      // 목록 update
       const modifiedLvl1Data = this.listLvl1Dummy.map((v) => {
-        debugger;
         if (v.id === this.clickedListLvl1Inst.id) {
-          v.count = this.filteredListLvl2.length;
+          ++v.count;
         }
         return v;
       });
-
-      this.toggleItemLvl2();
-      this.render(this.clickedListLvl1Inst, this.filteredListLvl2);
       this.renderListLvl1(modifiedLvl1Data);
     });
 

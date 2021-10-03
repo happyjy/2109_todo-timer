@@ -1,6 +1,7 @@
 export class ListHeader {
   constructor({
     headerSelector,
+    addItemLvl2Selector,
     toggleAddList,
     changeEvent: { toggleItemLvl2 },
   }) {
@@ -11,6 +12,11 @@ export class ListHeader {
 
     this.toggleItemLvl2 = toggleItemLvl2;
     this.$listLvl2HeaderContainer = document.querySelector(this.headerSelector);
+
+    this.$addItemLvl2Container = document.querySelector(addItemLvl2Selector);
+
+    this.$listLv1ItemInput = document.querySelector('#listLv1-item-input');
+    this.$pomoTitle = document.querySelector('#pomo-title');
   }
 
   initialize() {
@@ -42,47 +48,53 @@ export class ListHeader {
   }
 
   eventBinding() {
-    const $addItem = document.querySelector(`#${this.addItemId}`);
-    const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
-
     // 목록 추가 클릭
-    $addItem.addEventListener('click', () => {
+    this.$addItem = document.querySelector(`#${this.addItemId}`);
+    this.$addItem.addEventListener('click', () => {
       // 목록 추가 input dom
       this.$displayAddListLvl1 = this.toggleItemLvl2();
-      $listLv1ItemInput.focus();
+      // this.$pomoTitle.focus();
+      this.$pomoTitle.value = '새로운 할 일 입력';
     });
 
     // // 목록 추가 클릭
     // document.querySelector('#addListLvl1').addEventListener('click', () => {
     //   // 목록 추가 input dom
     //   this.$displayAddListLvl1 = this.toggleItemLvl1();
-    //   $listLv1ItemInput.focus();
+    //   this.$listLv1ItemInput.focus();
     // });
 
     // 목록 추가 취소 (esc)
     // 목록 추가 (enter)
-    $listLv1ItemInput.addEventListener('keyup', (e) => {
-      switch (e.key) {
-        case 'Escape':
-          //keyCode 27
-          e.target.value = '';
-          this.toggleItemLvl1();
-          break;
-        case 'Enter':
-          //keyCode 13
-          this.addData(e.target.value);
-          this.toggleItemLvl1();
-          e.target.value = '';
-          break;
+    // this.$listLv1ItemInput.addEventListener('keyup', (e) => {
+    //   switch (e.key) {
+    //     case 'Escape':
+    //       //keyCode 27
+    //       e.target.value = '';
+    //       this.toggleItemLvl1();
+    //       break;
+    //     case 'Enter':
+    //       //keyCode 13
+    //       this.addData(e.target.value);
+    //       this.toggleItemLvl1();
+    //       e.target.value = '';
+    //       break;
 
-        default:
-          break;
-      }
-    });
+    //     default:
+    //       break;
+    //   }
+    // });
   }
 
-  toggleItemLvl1() {
-    const target = document.querySelector('#add-item-lvl1');
-    target.classList.toggle('hidden');
+  close() {
+    // this.$addItem = document.querySelector(`#${this.addItemId}`);
+    this.$addItemLvl2Container.classList.add('hidden');
+    this.$listLv1ItemInput.value = '';
+    this.$pomoTitle.value = '';
   }
+
+  // toggleItemLvl1() {
+  //   const target = document.querySelector('#add-item-lvl1');
+  //   target.classList.toggle('hidden');
+  // }
 }

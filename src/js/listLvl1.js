@@ -7,9 +7,9 @@ export class listLvl1 {
     headerSelector,
     contentSelector,
     addItemLvl1Selector,
+    addItemLvl2Selector,
     data,
     dataField,
-
     listLvl2Inst,
     changeEvent: { updateCurrentListLvl1Id },
   }) {
@@ -17,6 +17,7 @@ export class listLvl1 {
     this.headerSelector = headerSelector;
     this.contentSelector = contentSelector;
     this.addItemLvl1Selector = addItemLvl1Selector;
+    this.addItemLvl2Selector = addItemLvl2Selector;
 
     // # upper layer에서 data를 관리 할 필요 있음.
     //  * listLvl1ItemInst, data
@@ -27,8 +28,13 @@ export class listLvl1 {
 
     this.updateCurrentListLvl1Id = updateCurrentListLvl1Id;
 
-    this.$listLvl1HeaderContainer = document.querySelector(headerSelector);
-    this.$listLvl1ContentContainer = document.querySelector(contentSelector);
+    this.$listLvl1HeaderContainer = document.querySelector(this.headerSelector);
+    this.$listLvl1ContentContainer = document.querySelector(
+      this.contentSelector,
+    );
+    // this.$addItemLvl2Container = document.querySelector(
+    //   this.addItemLvl2Selector,
+    // );
 
     const { listLvl1Header, listLvl1Content } = this.initialize(
       [this.$listLvl1HeaderContainer, this.$listLvl1ContentContainer],
@@ -87,8 +93,8 @@ export class listLvl1 {
       [x]목록 추가 취소 (esc)
       [x]목록 추가 (enter)
       [x]목록 리스트 삭제
-      []목록 리스트 클릭
-        - []할일 list render
+      [x]목록 리스트 클릭
+        - [x]할일 list render
         - [x]hight-light
      */
     const $listLv1ItemInput = document.querySelector('#listLv1-item-input');
@@ -152,9 +158,14 @@ export class listLvl1 {
           // 목록 item 클릭 -> 할일 header, list render
           const clickedListLvl1Inst = getDomHasInst(target).inst;
           this.listLvl2Inst.render(clickedListLvl1Inst);
-
           // 클릭 한 list lvl1 id
+          this.listLvl2Inst.ListHeaderInst.close();
           this.updateCurrentListLvl1Id(clickedListLvl1Inst.id);
+
+          // const addItemLvl2Container = document.querySelector(
+          //   this.addItemLvl2Selector,
+          // );
+          // addItemLvl2Container && addItemLvl2Container.classList.add('hidden');
           return;
         }
       });

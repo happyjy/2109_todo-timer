@@ -47,7 +47,8 @@ import { ListHeader } from './js/header.js';
   //   },
   // };
 
-  const delListLvl2Item = (id) => {};
+  // const delListLvl2Item = (id) => {
+  // };
   const addListLvl2Item = ({ id, pomoTitle, pomoTime }) => {
     const newListLvl2Item = {
       lvl: 2,
@@ -60,13 +61,12 @@ import { ListHeader } from './js/header.js';
     };
 
     listLvl2Dummy.push(newListLvl2Item);
-
     console.log({ listLvl2Dummy, curr: state.currentListLvl1Id });
 
-    return listLvl2Dummy.filter(
-      (v) => v.upperLvlId === state.currentListLvl1Id,
-    );
-    // console.log(listLvl2Dummy);
+    return newListLvl2Item;
+    // return listLvl2Dummy.filter(
+    //   (v) => v.upperLvlId === state.currentListLvl1Id,
+    // );
   };
 
   const updateCurrentListLvl1Id = (id) => {
@@ -101,6 +101,7 @@ import { ListHeader } from './js/header.js';
     headerSelector: '#listLvl1-header',
     contentSelector: '#listLvl1-content',
     addItemLvl1Selector: '#add-item-lvl1',
+    addItemLvl2Selector: '#add-item-lvl2',
     data: listLvl1Dummy,
     dataField: {
       lvlField: 'lvl',
