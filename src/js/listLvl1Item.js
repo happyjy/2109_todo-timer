@@ -12,7 +12,7 @@ export class ListLvl1Item {
     const listLvl1ItemTemplate = `
       <div class="listLvl1-item-left">
         <div class="icon-container">
-          <label class="listLvl1-item-icon">🔥</label>
+          <label class="listLvl1-item-icon">?</label>
         </div>
         <div class="listLvl1-item-title-outer">
           <label class="listLvl1-item-title item-title">${this.title}</label>

@@ -61,7 +61,7 @@ export const Timer = function () {
               $headerPomoTimeCountDom.innerHTML = currentTime;
             }
           }
-        }, 50);
+        }, 1000);
       },
       pauseCountDownTimer: function () {
         $pomoStartDom.classList.add('hidden');
